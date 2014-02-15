@@ -70,7 +70,7 @@ public class WheelSystem implements RobotSystem {
             currentRampX = 0;
         }*/
         
-        wheels.arcadeDrive(currentRampY, currentRampX);
+        wheels.arcadeDrive(currentRampY, input.getRightX());
         
         /*if(sonar.getDistance() < 36) {
             wheels.arcadeDrive(-currentRampY, -currentRampX);

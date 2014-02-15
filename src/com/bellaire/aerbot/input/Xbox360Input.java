@@ -31,11 +31,11 @@ public class Xbox360Input implements InputMethod {
     }
     
     public boolean shoot() {
-        return controller.getRawButton(6);
+        return controller.getRawButton(1);
     }
     
     public boolean antishoot() {
-        return controller.getRawButton(5);
+        return controller.getRawButton(4);
     }
     
 }
