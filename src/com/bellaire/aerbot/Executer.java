@@ -2,6 +2,7 @@ package com.bellaire.aerbot;
 
 import com.bellaire.aerbot.listeners.AutonomousListener;
 import com.bellaire.aerbot.listeners.CompressorListener;
+import com.bellaire.aerbot.listeners.IntakeListener;
 import com.bellaire.aerbot.listeners.MovementListener;
 import com.bellaire.aerbot.listeners.Listener;
 import com.bellaire.aerbot.listeners.ShooterListener;
@@ -19,16 +20,19 @@ public class Executer {
         AutonomousListener al = new AutonomousListener();
         CompressorListener cl = new CompressorListener();
         ShooterListener sl = new ShooterListener();
+        IntakeListener il = new IntakeListener();
         
         ml.init(e);
         al.init(e);
         cl.init(e);
         sl.init(e);
+        il.init(e);
         
         notRunning.addElement(ml);
         notRunning.addElement(al);
         notRunning.addElement(cl);
         notRunning.addElement(sl);
+        notRunning.addElement(il);
     }
     
     public void update() {

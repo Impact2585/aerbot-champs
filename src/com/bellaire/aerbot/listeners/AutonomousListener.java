@@ -1,18 +1,19 @@
 package com.bellaire.aerbot.listeners;
 
 import com.bellaire.aerbot.Environment;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutonomousListener implements Listener {
     
+	public static double WAIT_LENGTH = 0;
+	
     private Environment env;
+    private long time = -1;
+    private long delay;
     
     public void init(Environment env) {
         this.env = env;
-        
-        //this.camera = env.getCameraSystem();
-        
-        //SmartDashboard.putNumber("Autonomous Turn Speed", 0.1);
+        delay = System.currentTimeMillis();
+        time = -1;
     }
 
     public boolean isComplete() {
@@ -24,8 +25,20 @@ public class AutonomousListener implements Listener {
     }
 
     public void execute() {
-        //SmartDashboard.putString("Found Target", "false");
-        env.getWheelSystem().drive(0.1, 1);
+        long now = System.currentTimeMillis();
+        
+        if(now - delay >= WAIT_LENGTH && time == -1)
+        	time = System.currentTimeMillis();
+        
+        if(now - time < 4000 && time != -1) {
+            env.getWheelSystem().drive(0.25, -.2);
+        } else if(now - time < 7000 && time != -1) {
+            env.getWheelSystem().drive(0.1, 0);
+            env.getIntakeSystem().setMotor(-1);
+        } else {
+        	env.getIntakeSystem().setMotor(0);
+        	env.getWheelSystem().drive(0, 0);
+        }
     }
     
 }

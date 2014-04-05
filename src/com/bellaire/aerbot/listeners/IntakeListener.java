@@ -19,7 +19,7 @@ public class IntakeListener implements Listener {
     }
 
     public void execute() {
-        env.getShooterSystem().shoot(env.getInput());
+        env.getIntakeSystem().intake(env.getInput());
     }
     
 }

@@ -2,42 +2,81 @@ package com.bellaire.aerbot.systems;
 
 import com.bellaire.aerbot.Environment;
 import com.bellaire.aerbot.input.InputMethod;
-import edu.wpi.first.wpilibj.Jaguar;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Victor;
 
 public class ShooterSystem implements RobotSystem {
 
-    private Jaguar jaguar;
+    private Environment env;
+    private Victor shooter;
+    private Relay lift;
     
-    private long start = 0, end = 0;
+    // v2 code
+    private boolean shooting = false;
+    private long shootStart = 0, lastPress = 0;
     
     public void init(Environment e) {
-        jaguar = new Jaguar(10);
+        this.env = e;
+        shooter = new Victor(4);
+        lift = new Relay(6);
         
-        SmartDashboard.putDouble("shooter interval", 0.3d);
-        SmartDashboard.putDouble("shooter power", 0.3d);
+        lift.set(Relay.Value.kOff);
+    }
+    
+    public void open() {
+        lift.set(Relay.Value.kForward);
+    }
+    
+    public void close() {
+        lift.set(Relay.Value.kOff);
+    }
+    
+    public void destroy() {
+        
     }
 
-    public void destroy() {
+    private boolean ashoot = false;
+
+    public void autoShoot() {
         
     }
     
     public void shoot(InputMethod input) {
-        SmartDashboard.putDouble("shooter motor", jaguar.get());
-        if(input.shoot() && start == -1) {
-            start = System.currentTimeMillis();
-            jaguar.set(-SmartDashboard.getDouble("shooter power", 0.3d));
+        long current = System.currentTimeMillis();
+        
+        if((env.getInput().shoot() || ashoot) && current - lastPress > 500) { // fix da toggle
+            lastPress = current;
+            if(shooting == false) {
+                close();
+                shooter.set(1);
+
+                shooting = true;
+                shootStart = current;
+            } else {
+                if(current - shootStart < 2000) {
+                    shooter.set(0);
+                    
+                    shooting = false;
+                    ashoot = false;
+                    shootStart = 0;
+                }
+            }
         }
         
-        if(input.antishoot()) {
-            jaguar.set(0.2d);
+        if(shooting) {
+            if(current - shootStart >= 3000 && current - shootStart < 4500) {
+                open();
+            } else if(current - shootStart >= 4500) {
+                close();
+                shooter.set(0);
+                
+                shooting = false;
+                ashoot = false;
+                shootStart = 0;
+            }
         }
         
-        long cur = System.currentTimeMillis();
-        if(cur - start > (1000 * SmartDashboard.getDouble("shooter interval", 3d)) && start != -1) {
-            start = -1;
-            jaguar.set(0d);
-        }
+        
     }
     
 }

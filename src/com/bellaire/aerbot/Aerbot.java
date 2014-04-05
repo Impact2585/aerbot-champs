@@ -5,7 +5,6 @@ import com.bellaire.aerbot.controllers.AutonomousController;
 import com.bellaire.aerbot.controllers.MotionTracker;
 import com.bellaire.aerbot.controllers.OperatorController;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.camera.AxisCamera;
 
 public class Aerbot extends IterativeRobot {
     
@@ -24,9 +23,9 @@ public class Aerbot extends IterativeRobot {
         exec.onAutonomous();
         autonomous = new AutonomousController(environment, exec);
     }
-
+    
     public void autonomousPeriodic() {
-        //autonomous.update();
+        autonomous.update();
     }
     
     public void teleopInit() {

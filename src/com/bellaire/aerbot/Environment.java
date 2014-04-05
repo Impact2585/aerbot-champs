@@ -2,7 +2,9 @@ package com.bellaire.aerbot;
 
 import com.bellaire.aerbot.controllers.MotionTracker;
 import com.bellaire.aerbot.input.InputMethod;
-import com.bellaire.aerbot.input.Xbox360Input;
+import com.bellaire.aerbot.input.PartnerXboxInput;
+import com.bellaire.aerbot.input.XboxInput;
+import com.bellaire.aerbot.systems.IntakeSystem;
 import com.bellaire.aerbot.systems.ShooterSystem;
 import com.bellaire.aerbot.systems.SonarSystem;
 import com.bellaire.aerbot.systems.WheelSystem;
@@ -15,8 +17,9 @@ public class Environment {
     private InputMethod input;
     
     private WheelSystem wheels;
-    private SonarSystem sonar;
+    //private SonarSystem sonar;
     private ShooterSystem shooter;
+    private IntakeSystem intake;
     
     //private GyroSystem gyro;
     //private AccelerometerSystem accel;
@@ -27,16 +30,19 @@ public class Environment {
     public Environment(RobotBase robot) {
         this.robot = robot;
         
-        this.input = new Xbox360Input();
+        this.input = new PartnerXboxInput();
         
-        this.sonar = new SonarSystem();
-        this.sonar.init(this);
+        //this.sonar = new SonarSystem();
+        //this.sonar.init(this);
         
         this.wheels = new WheelSystem();
         this.wheels.init(this);
         
         this.shooter = new ShooterSystem();
         this.shooter.init(this);
+        
+        this.intake = new IntakeSystem();
+        this.intake.init(this);
     }
     
     public InputMethod getInput() {
@@ -47,12 +53,16 @@ public class Environment {
         return wheels;
     }
     
-    public SonarSystem getSonarSystem() {
-        return sonar;
-    }
+    //public SonarSystem getSonarSystem() {
+    //    return sonar;
+    //}
     
     public ShooterSystem getShooterSystem() {
         return shooter;
+    }
+    
+    public IntakeSystem getIntakeSystem() {
+        return intake;
     }
     
     /*public GyroSystem getGyroSystem() {

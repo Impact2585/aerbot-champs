@@ -5,17 +5,17 @@ import com.bellaire.aerbot.controllers.MotionTracker;
 import com.bellaire.aerbot.custom.RobotDrive3;
 import com.bellaire.aerbot.input.InputMethod;
 import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class WheelSystem implements RobotSystem {
 
     private RobotDrive3 wheels;
     
-    private SonarSystem sonar;
+    //private SonarSystem sonar;
     
     private Relay gearbox;
     private int gear = 0; // off
-    private boolean gearPress = false;
+    private boolean gearPress = false, dirToggle = false;
+    private int dir = 1;
     
     private MotionTracker motion;
 
@@ -25,8 +25,6 @@ public class WheelSystem implements RobotSystem {
 
     public void init(Environment e) {
         wheels = new RobotDrive3(1, 2);
-        
-        this.sonar = e.getSonarSystem();
         
         gearbox = new Relay(2);
         this.gearsOff();
@@ -53,6 +51,10 @@ public class WheelSystem implements RobotSystem {
         wheels.drive(outputMaginitude, curve);
     }
     
+    public void arcadeDrive(double moveValue, double rotateValue){
+    	wheels.arcadeDrive(moveValue, rotateValue);
+    }
+    
     private double currentLeftY = 0, currentRightX = 0;
     private double currentRampY = 0, currentRampX = 0;
 
@@ -60,8 +62,8 @@ public class WheelSystem implements RobotSystem {
         currentLeftY = -input.getLeftY();
         currentRightX = input.getRightX();
         
-        currentRampY += (currentLeftY - currentRampY) * (20d/300d);
-        currentRampX += (currentRightX - currentRampX) * (20d/300d);
+        currentRampY += (currentLeftY - currentRampY) * (70d/300d);
+        currentRampX += (currentRightX - currentRampX) * (70d/300d);
         
         /*if(currentLeftY == 0) {
             currentRampY = 0;
@@ -70,23 +72,22 @@ public class WheelSystem implements RobotSystem {
             currentRampX = 0;
         }*/
         
-        wheels.arcadeDrive(currentRampY, input.getRightX());
+        wheels.arcadeDrive(currentRampY * dir, input.getRightX());
         
         /*if(sonar.getDistance() < 36) {
             wheels.arcadeDrive(-currentRampY, -currentRampX);
         }*/
         
-        SmartDashboard.putNumber("Sonar Distance", sonar.getDistance());
-        
         //SmartDashboard.putNumber("Robot Heading", motion.getHeading());
         //SmartDashboard.putNumber("Robot Speed", motion.getSpeed());
         
-        if (!input.boost()) {
+        boolean shift = input.shift();
+        if (!shift) {
             gearPress = false;
         }
 
         if (gearPress == false) {
-            if (input.boost()) {
+            if (shift) {
                 gearPress = true;
                 if (gear == 0) {
                     this.gearsReverse();
@@ -95,6 +96,14 @@ public class WheelSystem implements RobotSystem {
                 }
             }
         }
+
+        if(!dirToggle) {
+            if(input.directionToggle()) {
+                dirToggle = true;
+                dir *= -1;
+            }
+        }
+        dirToggle = input.directionToggle();
     }
 
 }
