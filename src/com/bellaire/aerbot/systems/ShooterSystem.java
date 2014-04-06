@@ -59,7 +59,7 @@ public class ShooterSystem implements RobotSystem {
                 shootStart = current;
             } else {
                 if(current - shootStart < 2000) {
-                    shooter.set(0.4);
+                    shooter.set(0.25);
                     
                     shooting = false;
                     ashoot = false;
@@ -73,7 +73,7 @@ public class ShooterSystem implements RobotSystem {
                 open();
             } else if(current - shootStart >= 4500) {
                 close();
-                shooter.set(0.4);
+                shooter.set(0.25);
                 
                 shooting = false;
                 ashoot = false;
