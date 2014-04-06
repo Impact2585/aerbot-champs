@@ -69,7 +69,7 @@ public class ShooterSystem implements RobotSystem {
         }
         
         if(shooting) {
-            if(current - shootStart >= 3000 && current - shootStart < 4500) {
+            if(current - shootStart >= 1000 && current - shootStart < 4500) {
                 open();
             } else if(current - shootStart >= 4500) {
                 close();
