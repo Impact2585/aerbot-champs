@@ -18,7 +18,7 @@ public class ShooterSystem implements RobotSystem {
     public void init(Environment e) {
         this.env = e;
         shooter = new Victor(4);
-        shooter.set(0.4);
+        shooter.set(0.25);
         lift = new Relay(6);
         
         lift.set(Relay.Value.kOff);
@@ -69,7 +69,7 @@ public class ShooterSystem implements RobotSystem {
         }
         
         if(shooting) {
-            if(current - shootStart >= 1000 && current - shootStart < 4500) {
+            if(current - shootStart >= 2000 && current - shootStart < 4500) {
                 open();
             } else if(current - shootStart >= 4500) {
                 close();
