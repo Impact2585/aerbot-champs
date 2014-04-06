@@ -30,14 +30,16 @@ public class AutonomousListener implements Listener {
         if(now - delay >= WAIT_LENGTH && time == -1)
         	time = System.currentTimeMillis();
         
-        if(now - time < 4000 && time != -1) {
-            env.getWheelSystem().drive(0.25, -.2);
-        } else if(now - time < 7000 && time != -1) {
+        if(now - time < 2500 && time != -1) {
+            env.getWheelSystem().drive(0.5, 0.007);
+            env.getShooterSystem().open();
+        } else if(now - time < 5500 && time != -1) {
             env.getWheelSystem().drive(0.1, 0);
             env.getIntakeSystem().setMotor(-1);
-        } else {
+        }else {
         	env.getIntakeSystem().setMotor(0);
         	env.getWheelSystem().drive(0, 0);
+        	env.getShooterSystem().close();
         }
     }
     
