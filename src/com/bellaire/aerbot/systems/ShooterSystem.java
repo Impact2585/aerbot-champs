@@ -31,6 +31,10 @@ public class ShooterSystem implements RobotSystem {
         lift.set(Relay.Value.kOff);
     }
     
+    public void setMotor(double speed){
+    	shooter.set(speed);
+    }
+    
     public void destroy() {
         
     }
