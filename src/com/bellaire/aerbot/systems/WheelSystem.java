@@ -15,6 +15,7 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
     public static final double Ki = 0;
     public static final double Kd = 0.0;
 	public static final double SHIFTING_SPEED = 2;
+	public static final double RAMPING = 0.5;
 	
     private RobotDrive3 wheels;
     
@@ -25,8 +26,8 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
     private boolean gearPress = false, dirToggle = false;
     private int dir = 1;
     
-    private double currentLeftY = 0, currentRightX = 0;
-    private double currentRampY = 0, currentRampX = 0;
+    private double currentLeftY = 0;
+    private double currentRampY = 0;
     
     private GyroSystem gyro;
 	private boolean straightDriving;
@@ -113,10 +114,8 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 
     public void move(InputMethod input) {
         currentLeftY = -input.getLeftY();
-        currentRightX = input.getRightX();
         
-        currentRampY += (currentLeftY - currentRampY) * (70d/300d);
-        currentRampX += (currentRightX - currentRampX) * (70d/300d);
+        currentRampY += (currentLeftY - currentRampY) * RAMPING;
         
         wheels.arcadeDrive(currentRampY * dir, input.getRightX());
         
