@@ -10,11 +10,11 @@ import java.util.Vector;
 
 public class Executer {
     
-    private final Vector<Listener> notRunning, running;
+    private final Vector notRunning, running;
     
     public Executer(Environment e) {
-        notRunning = new Vector<Listener>();
-        running = new Vector<Listener>();
+        notRunning = new Vector();
+        running = new Vector();
 
         MovementListener ml = new MovementListener();
         AutonomousListener al = new AutonomousListener();
