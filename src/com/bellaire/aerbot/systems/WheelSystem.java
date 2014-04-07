@@ -36,6 +36,9 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 	private Timer timer;
 	private boolean automatic = true;
 	
+	private boolean disableStraightDrive;
+	private boolean disableStraightDrivePressed;
+	
     public WheelSystem() {
         super(Kp,Ki,Kd);
     }
@@ -115,7 +118,10 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
         
         currentRampY += (currentLeftY - currentRampY) * RAMPING;
         
-        wheels.arcadeDrive(currentRampY * dir, input.getRightX());
+        if(!disableStraightDrive && Math.abs(input.getLeftY()) > 15 && Math.abs(input.getRightX()) < 10)
+        	straightDrive(currentRampY * dir);
+        else
+        	wheels.arcadeDrive(currentRampY * dir, input.getRightX());
         
         try{
             SmartDashboard.putBoolean("Low gear: ", gear == 1);
@@ -166,6 +172,11 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
             }
         }
         dirToggle = input.directionToggle();
+        
+        //toggle straight driving
+        if(!disableStraightDrivePressed && input.straightDrive())
+        	disableStraightDrive = !disableStraightDrive;
+        disableStraightDrivePressed = input.straightDrive();
     }
     
     protected double returnPIDInput() {

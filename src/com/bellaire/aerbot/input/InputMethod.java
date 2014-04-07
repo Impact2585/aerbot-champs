@@ -30,4 +30,6 @@ public interface InputMethod {
     
     public boolean directionToggle();
     
+    public boolean straightDrive();
+    
 }
