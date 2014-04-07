@@ -28,11 +28,11 @@ public class AccelerometerSystem implements RobotSystem {
   }
 
   public double getAccelerationX() {
-    return (accel.getAcceleration(ADXL345_I2C.Axes.kX))* 9.8;
+    return accel.getAcceleration(ADXL345_I2C.Axes.kX);
   }
 
   public double getAccelerationY() {
-    return Math.floor(accel.getAcceleration(ADXL345_I2C.Axes.kY) * 10d) / 10d;
+    return accel.getAcceleration(ADXL345_I2C.Axes.kY);
   }
 
   public double getAccelerationZ() {
@@ -40,8 +40,10 @@ public class AccelerometerSystem implements RobotSystem {
   }
 
   public double getSpeed() {
-    speed += getAccelerationX() * timer.get();
-    if(Math.abs(getAccelerationX()) < 0.1 && Math.abs(speed) < 0.1)
+	if(timer.get() > .75)
+	  timer.reset();
+    speed += getAccelerationX() * 9.8 * timer.get();
+    if(Math.abs(getAccelerationX()) < 0.1 && Math.abs(speed) < 0.25)
       speed = 0;//reset accelerometer if relatively no acceleration and no speed
     timer.reset();
     return speed;
