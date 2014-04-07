@@ -4,6 +4,7 @@ import com.bellaire.aerbot.controllers.MotionTracker;
 import com.bellaire.aerbot.input.InputMethod;
 import com.bellaire.aerbot.input.PartnerXboxInput;
 import com.bellaire.aerbot.input.XboxInput;
+import com.bellaire.aerbot.systems.AccelerometerSystem;
 import com.bellaire.aerbot.systems.GyroSystem;
 import com.bellaire.aerbot.systems.IntakeSystem;
 import com.bellaire.aerbot.systems.ShooterSystem;
@@ -24,7 +25,7 @@ public class Environment {
     private IntakeSystem intake;
     
     private GyroSystem gyro;
-    //private AccelerometerSystem accel;
+    private AccelerometerSystem accel;
     
     private Thread motionThread;
     private MotionTracker motion;
@@ -36,6 +37,9 @@ public class Environment {
         
         //this.sonar = new SonarSystem();
         //this.sonar.init(this);
+        
+        this.accel = new AccelerometerSystem();
+        this.accel.init(this);
         
         this.gyro = new GyroSystem();
         this.gyro.init(this);
@@ -73,11 +77,11 @@ public class Environment {
     public GyroSystem getGyroSystem() {
         return gyro;
     }
-/*
+
     public AccelerometerSystem getAccelerometerSystem() {
         return accel;
     }
-  */  
+
     public MotionTracker getMotionTracker() {
         return motion;
     }

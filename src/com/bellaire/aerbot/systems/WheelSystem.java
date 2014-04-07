@@ -5,6 +5,7 @@ import com.bellaire.aerbot.custom.RobotDrive3;
 import com.bellaire.aerbot.input.InputMethod;
 
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -13,6 +14,7 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
     public static final double Kp = .1;
     public static final double Ki = 0;
     public static final double Kd = 0.0;
+	public static final double SHIFTING_SPEED = 2;
 	
     private RobotDrive3 wheels;
     
@@ -31,6 +33,10 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 	private double heading;
 	private double correctRotate;
 
+	private AccelerometerSystem accelerometer;
+	private Timer timer;
+	private boolean automatic = true;
+	
     public WheelSystem() {
         super(Kp,Ki,Kd);
     }
@@ -45,6 +51,11 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
         //this.motion = e.getMotionTracker();
         
         gyro = e.getGyroSystem();
+        
+        accelerometer = e.getAccelerometerSystem();
+        
+        timer = new Timer();
+        timer.start();
     }
     
     public void gearsOff() {
@@ -82,7 +93,23 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
           correctRotate = 0;
         }
         wheels.arcadeDrive(moveValue, correctRotate);
+    }
+    
+    public void automaticGearShift() {
+        if (Math.abs(accelerometer.getSpeed()) > SHIFTING_SPEED && gear == 1) {
+        	if(timer.get() > 0.5){
+        		gearsOff();
+        		timer.reset();
+        	}
+        } else if (Math.abs(accelerometer.getSpeed()) <= SHIFTING_SPEED && gear == 0) {
+        	if(timer.get() > 0.5){
+        		gearsReverse();
+        		timer.reset();
+        	}
+        }
       }
+    
+    
 
     public void move(InputMethod input) {
         currentLeftY = -input.getLeftY();
@@ -91,21 +118,28 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
         currentRampY += (currentLeftY - currentRampY) * (70d/300d);
         currentRampX += (currentRightX - currentRampX) * (70d/300d);
         
-        /*if(currentLeftY == 0) {
-            currentRampY = 0;
-        }
-        if(currentRightX == 0) {
-            currentRampX = 0;
-        }*/
-        
         wheels.arcadeDrive(currentRampY * dir, input.getRightX());
         
-        /*if(sonar.getDistance() < 36) {
-            wheels.arcadeDrive(-currentRampY, -currentRampX);
-        }*/
-        
-        //SmartDashboard.putNumber("Robot Heading", motion.getHeading());
-        //SmartDashboard.putNumber("Robot Speed", motion.getSpeed());
+        try{
+            SmartDashboard.putBoolean("Low gear: ", gear == 1);
+            SmartDashboard.putBoolean("Automatic shifting: ", automatic);
+            SmartDashboard.putBoolean("Switched front: ", dir == -1);
+            SmartDashboard.putNumber("Angle: ", gyro.getHeading());
+          }catch(NullPointerException ex){
+          	
+          }
+          try {
+            SmartDashboard.putNumber("AccelerationX: ", accelerometer.getAccelerationX());
+            SmartDashboard.putNumber("AccelerationY: ", accelerometer.getAccelerationY());
+            SmartDashboard.putNumber("AccelerationZ: ", accelerometer.getAccelerationZ());
+          } catch (NullPointerException ex) {
+
+          }
+          try {
+            SmartDashboard.putNumber("Speed: ", accelerometer.getSpeed());
+          } catch (NullPointerException ex) {
+
+          }
         
         boolean shift = input.shift();
         if (!shift) {
@@ -115,6 +149,7 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
         if (gearPress == false) {
             if (shift) {
                 gearPress = true;
+                automatic = false;
                 if (gear == 0) {
                     this.gearsReverse();
                 } else if (gear == 1) {
@@ -122,6 +157,10 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
                 }
             }
         }
+        
+
+        if(automatic )
+          automaticGearShift();
 
         if(!dirToggle) {
             if(input.directionToggle()) {
@@ -138,7 +177,6 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 
       protected void usePIDOutput(double d) {
         SmartDashboard.putNumber("Straight drive PID: ", d);
-        SmartDashboard.putNumber("current heading: ", gyro.getHeading());
         correctRotate = d;
       }
 
