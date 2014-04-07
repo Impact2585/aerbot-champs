@@ -1,13 +1,19 @@
 package com.bellaire.aerbot.systems;
 
 import com.bellaire.aerbot.Environment;
-import com.bellaire.aerbot.controllers.MotionTracker;
 import com.bellaire.aerbot.custom.RobotDrive3;
 import com.bellaire.aerbot.input.InputMethod;
+
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class WheelSystem implements RobotSystem {
+public class WheelSystem extends PIDSubsystem implements RobotSystem {
 
+    public static final double Kp = .1;
+    public static final double Ki = 0;
+    public static final double Kd = 0.0;
+	
     private RobotDrive3 wheels;
     
     //private SonarSystem sonar;
@@ -17,10 +23,16 @@ public class WheelSystem implements RobotSystem {
     private boolean gearPress = false, dirToggle = false;
     private int dir = 1;
     
-    private MotionTracker motion;
+    private double currentLeftY = 0, currentRightX = 0;
+    private double currentRampY = 0, currentRampX = 0;
+    
+    private GyroSystem gyro;
+	private boolean straightDriving;
+	private double heading;
+	private double correctRotate;
 
     public WheelSystem() {
-        //wheels.setExpiration(0.1);
+        super(Kp,Ki,Kd);
     }
 
     public void init(Environment e) {
@@ -31,6 +43,8 @@ public class WheelSystem implements RobotSystem {
 
         wheels.setSafetyEnabled(false);
         //this.motion = e.getMotionTracker();
+        
+        gyro = e.getGyroSystem();
     }
     
     public void gearsOff() {
@@ -55,8 +69,20 @@ public class WheelSystem implements RobotSystem {
     	wheels.arcadeDrive(moveValue, rotateValue);
     }
     
-    private double currentLeftY = 0, currentRightX = 0;
-    private double currentRampY = 0, currentRampX = 0;
+    public void straightDrive(double moveValue) {
+        if (!straightDriving) {
+          heading = gyro.getHeading();
+        }
+        straightDriving = true;
+        if (Math.abs(heading - gyro.getHeading()) > 2 && !getPIDController().isEnable()) {
+          setSetpoint(heading);
+          enable();
+        } else if (Math.abs(heading - gyro.getHeading()) <= 2 && getPIDController().isEnable()) {
+          disable();
+          correctRotate = 0;
+        }
+        wheels.arcadeDrive(moveValue, correctRotate);
+      }
 
     public void move(InputMethod input) {
         currentLeftY = -input.getLeftY();
@@ -105,5 +131,19 @@ public class WheelSystem implements RobotSystem {
         }
         dirToggle = input.directionToggle();
     }
+    
+    protected double returnPIDInput() {
+        return gyro.getAngle();
+      }
+
+      protected void usePIDOutput(double d) {
+        SmartDashboard.putNumber("Straight drive PID: ", d);
+        SmartDashboard.putNumber("current heading: ", gyro.getHeading());
+        correctRotate = d;
+      }
+
+      protected void initDefaultCommand() {
+
+      }
 
 }
