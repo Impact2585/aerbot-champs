@@ -6,10 +6,10 @@
 package com.bellaire.aerbot.systems;
 
 import com.bellaire.aerbot.Environment;
+
 import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.DigitalModule;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.Timer;
 
 public class AccelerometerSystem implements RobotSystem {

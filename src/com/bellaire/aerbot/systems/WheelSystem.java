@@ -19,8 +19,6 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 	
     private RobotDrive3 wheels;
     
-    //private SonarSystem sonar;
-    
     private Relay gearbox;
     private int gear = 0; // off
     private boolean gearPress = false, dirToggle = false;
