@@ -14,6 +14,8 @@ public class ShooterSystem implements RobotSystem {
     // v2 code
     private boolean shooting = false;
     private long shootStart = 0, lastPress = 0;
+    private boolean shotPress;
+    private boolean manualShooting;
     
     public void init(Environment e) {
         this.env = e;
@@ -39,17 +41,11 @@ public class ShooterSystem implements RobotSystem {
     public void destroy() {
         
     }
-
-    private boolean ashoot = false;
-
-    public void autoShoot() {
-        
-    }
     
     public void shoot(InputMethod input) {
         long current = System.currentTimeMillis();
         
-        if((env.getInput().shoot() || ashoot) && current - lastPress > 500) { // fix da toggle
+        if(env.getInput().shoot() && current - lastPress > 500) { // fix da toggle
             lastPress = current;
             if(shooting == false) {
                 close();
@@ -62,7 +58,6 @@ public class ShooterSystem implements RobotSystem {
                     shooter.set(0);
                     
                     shooting = false;
-                    ashoot = false;
                     shootStart = 0;
                 }
             }
@@ -76,10 +71,19 @@ public class ShooterSystem implements RobotSystem {
                 shooter.set(0);
                 
                 shooting = false;
-                ashoot = false;
                 shootStart = 0;
             }
+        }else if(!shotPress && input.shooterLift()){
+        	if(manualShooting){
+        		close();
+        		shooter.set(0);
+        	}else{
+        		open();
+        		shooter.set(1);
+        	}
+        	manualShooting = !manualShooting;
         }
+        shotPress = input.shooterLift();
         
         
     }
