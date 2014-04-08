@@ -33,10 +33,18 @@ public class AutonomousListener implements Listener {
         	time = System.currentTimeMillis();
         
         if(now - time < 2500 && time != -1) {
-            env.getWheelSystem().straightDrive(0.5);
+        	try{
+        		env.getWheelSystem().straightDrive(0.5);
+        	}catch(NullPointerException ex){
+        		env.getWheelSystem().arcadeDrive(0.5, 0.007);
+        	}
             //env.getShooterSystem().open();
         } else if(now - time < 5500 && time != -1) {
-            env.getWheelSystem().straightDrive(0.1);
+        	try{
+        		env.getWheelSystem().straightDrive(0.1);
+        	}catch(NullPointerException ex){
+        		env.getWheelSystem().arcadeDrive(0.1, 0.007);;
+        	}
             env.getIntakeSystem().setMotor(-1);//outake
         }else {
         	//stop motors

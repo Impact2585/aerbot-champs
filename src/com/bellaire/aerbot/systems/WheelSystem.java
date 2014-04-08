@@ -36,7 +36,7 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 	private Timer timer;
 	private boolean automatic = false;
 
-	private boolean disableStraightDrive;
+	private boolean disableStraightDrive = true;
 	private boolean disableStraightDrivePressed;
 
 	public WheelSystem() {
@@ -82,7 +82,7 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 		wheels.arcadeDrive(moveValue, rotateValue);
 	}
 
-	public void straightDrive(double moveValue) {
+	public void straightDrive(double moveValue) throws NullPointerException{
 		if (!straightDriving) {
 			heading = gyro.getHeading();
 		}
