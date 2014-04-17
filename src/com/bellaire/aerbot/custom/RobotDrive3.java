@@ -69,8 +69,8 @@ public class RobotDrive3 extends RobotDrive {
     	rotation = rotation * rotation * rotation;//cubed rotation
 
     	//sideways movement to the left for positive xMovement and vise versa
-    	frontLeftMotorSpeed = rearRightMotorSpeed = xMovement;
-    	rearLeftMotorSpeed = frontRightMotorSpeed = -xMovement;
+    	frontLeftMotorSpeed = rearRightMotorSpeed = -xMovement;
+    	rearLeftMotorSpeed = frontRightMotorSpeed = xMovement;
 
     	//forward and backward
     	frontLeftMotorSpeed += yMovement;
