@@ -1,8 +1,8 @@
 package com.bellaire.aerbot.listeners;
 
 import com.bellaire.aerbot.Environment;
+
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.Relay;
 
 public class CompressorListener implements Listener {
 

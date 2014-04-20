@@ -9,7 +9,11 @@ public class RobotDrive3 extends RobotDrive {
         super(leftMotorChannel, rightMotorChannel);
     }
     
-    public void arcadeDrive(double moveValue, double rotateValue) {
+	public RobotDrive3(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor)  {
+		super(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor) ;
+	}
+
+	public void arcadeDrive(double moveValue, double rotateValue) {
         this.arcadeDrive(moveValue, rotateValue, false);
     }
     
@@ -56,6 +60,40 @@ public class RobotDrive3 extends RobotDrive {
         }
 
         setLeftRightMotorOutputs(leftMotorSpeed, rightMotorSpeed);
+    }
+    
+    
+    public void mecanumDrive(double yMovement, double xMovement, double rotation) {
+    	double frontLeftMotorSpeed, rearLeftMotorSpeed, frontRightMotorSpeed, rearRightMotorSpeed;
+
+    	rotation = rotation * rotation * rotation;//cubed rotation
+
+    	//sideways movement to the left for positive xMovement and vise versa
+    	frontLeftMotorSpeed = rearRightMotorSpeed = -xMovement;
+    	rearLeftMotorSpeed = frontRightMotorSpeed = xMovement;
+
+    	//forward and backward
+    	frontLeftMotorSpeed += yMovement;
+    	frontRightMotorSpeed += yMovement;
+    	rearLeftMotorSpeed += yMovement;
+    	rearRightMotorSpeed += yMovement;
+
+    	//positive rotation results in a turn to the left
+    	frontRightMotorSpeed += rotation;
+    	rearRightMotorSpeed += rotation;
+    	frontLeftMotorSpeed -= rotation;
+    	rearLeftMotorSpeed -= rotation;
+
+    	//make sure values aren't above 1 or below -1
+    	frontLeftMotorSpeed = limit(frontLeftMotorSpeed);
+    	frontRightMotorSpeed = limit(frontRightMotorSpeed);
+    	rearLeftMotorSpeed = limit(rearLeftMotorSpeed);
+    	rearRightMotorSpeed = limit(rearRightMotorSpeed);
+
+    	m_frontLeftMotor.set(frontLeftMotorSpeed);
+    	m_frontRightMotor.set(frontRightMotorSpeed);
+    	m_rearLeftMotor.set(rearLeftMotorSpeed);
+    	m_rearRightMotor.set(rearRightMotorSpeed);
     }
     
 }
