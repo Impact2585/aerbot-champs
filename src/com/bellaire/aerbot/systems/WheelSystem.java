@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class WheelSystem extends PIDSubsystem implements RobotSystem {
 
+	public static final double SHIFT_DELAY = 0.5;
 	public static final double Kp = .1;
 	public static final double Ki = 0;
 	public static final double Kd = 0.0;
@@ -84,14 +85,14 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 
 	public void straightDrive(double moveValue) throws NullPointerException{
 		if (!straightDriving) {
-			heading = gyro.getHeading();
+			heading = gyro.getAngle();
 		}
 		straightDriving = true;
-		if (Math.abs(heading - gyro.getHeading()) > 2
+		if (Math.abs(heading - gyro.getAngle()) > 2
 				&& !getPIDController().isEnable()) {
 			setSetpoint(heading);
 			enable();
-		} else if (Math.abs(heading - gyro.getHeading()) <= 2
+		} else if (Math.abs(heading - gyro.getAngle()) <= 2
 				&& getPIDController().isEnable()) {
 			disable();
 			correctRotate = 0;
@@ -101,13 +102,13 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 
 	public void automaticGearShift() {
 		if (Math.abs(accelerometer.getSpeed()) > SHIFTING_SPEED && gear == 1) {
-			if (timer.get() > 0.5) {
+			if (timer.get() > SHIFT_DELAY) {
 				gearsOff();
 				timer.reset();
 			}
 		} else if (Math.abs(accelerometer.getSpeed()) <= SHIFTING_SPEED
 				&& gear == 0) {
-			if (timer.get() > 0.5) {
+			if (timer.get() > SHIFT_DELAY) {
 				gearsReverse();
 				timer.reset();
 			}
@@ -119,16 +120,19 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 
 		currentRampY += (currentLeftY - currentRampY) * RAMPING;
 
-		if (!disableStraightDrive && Math.abs(input.getLeftY()) > 15
-				&& Math.abs(input.getRightX()) < 10)
+		if (!disableStraightDrive && Math.abs(input.getLeftY()) > .15
+				&& Math.abs(input.getRightX()) < .10)
 			straightDrive(currentRampY * dir);
-		else
+		else{
 			wheels.arcadeDrive(currentRampY * dir, input.getRightX());
+			straightDriving = false;
+		}
 
 		try {
 			SmartDashboard.putBoolean("Low gear: ", gear == 1);
 			SmartDashboard.putBoolean("Automatic shifting: ", automatic);
 			SmartDashboard.putBoolean("Switched front: ", dir == -1);
+			SmartDashboard.putBoolean("Straight driving: ", straightDriving);
 			SmartDashboard.putNumber("Angle: ", gyro.getHeading());
 		} catch (NullPointerException ex) {
 
