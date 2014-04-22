@@ -15,7 +15,7 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 	public static final double Kp = .1;
 	public static final double Ki = 0;
 	public static final double Kd = 0.0;
-	public static final double SHIFTING_SPEED = 2;
+	public static final double SHIFTING_SPEED = 1.8;
 	public static final double RAMPING = 0.5;
 
 	private RobotDrive3 wheels;
@@ -101,14 +101,14 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 	}
 
 	public void automaticGearShift() {
-		if (Math.abs(accelerometer.getSpeed()) > SHIFTING_SPEED && gear == 1) {
-			if (timer.get() > SHIFT_DELAY) {
+		//only autoshift once every half second
+		if(timer.get() > SHIFT_DELAY){
+			//shift based on speed from accelerometer and only when on the wrong gear
+			if (Math.abs(accelerometer.getSpeed()) > SHIFTING_SPEED && gear == 1 && Math.abs(currentLeftY) > .75) {
+				// also only shift into high gear if throttle is high
 				gearsOff();
 				timer.reset();
-			}
-		} else if (Math.abs(accelerometer.getSpeed()) <= SHIFTING_SPEED
-				&& gear == 0) {
-			if (timer.get() > SHIFT_DELAY) {
+			} else if (Math.abs(accelerometer.getSpeed()) <= SHIFTING_SPEED && gear == 0) {
 				gearsReverse();
 				timer.reset();
 			}
@@ -130,8 +130,8 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 
 		try {
 			SmartDashboard.putBoolean("Low gear: ", gear == 1);
-			SmartDashboard.putBoolean("Automatic shifting: ", automatic);
 			SmartDashboard.putBoolean("Switched front: ", dir == -1);
+			SmartDashboard.putBoolean("Automatic shifting: ", automatic);
 			SmartDashboard.putBoolean("Straight driving: ", straightDriving);
 			SmartDashboard.putNumber("Angle: ", gyro.getHeading());
 		} catch (NullPointerException ex) {
@@ -170,7 +170,8 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 			}
 		}
 
-		if (automatic)
+		//don't autoshift while turning
+		if (automatic && Math.abs(input.getRightX()) < 0.15)
 			automaticGearShift();
 
 		if (!dirToggle) {
