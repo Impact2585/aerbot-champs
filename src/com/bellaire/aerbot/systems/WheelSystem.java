@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class WheelSystem extends PIDSubsystem implements RobotSystem {
 
+	public static final double SHIFT_DELAY = 0.5;
 	public static final double Kp = .1;
 	public static final double Ki = 0;
 	public static final double Kd = 0.0;
@@ -47,8 +48,7 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 		wheels = new RobotDrive3(1, 2);
 
 		gearbox = new Relay(2);
-		this.gearsReverse();
-		gear = 1;
+		this.gearsOff();
 
 		wheels.setSafetyEnabled(false);
 		// this.motion = e.getMotionTracker();
@@ -102,13 +102,13 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 
 	public void automaticGearShift() {
 		if (Math.abs(accelerometer.getSpeed()) > SHIFTING_SPEED && gear == 1) {
-			if (timer.get() > 0.5) {
+			if (timer.get() > SHIFT_DELAY) {
 				gearsOff();
 				timer.reset();
 			}
 		} else if (Math.abs(accelerometer.getSpeed()) <= SHIFTING_SPEED
 				&& gear == 0) {
-			if (timer.get() > 0.5) {
+			if (timer.get() > SHIFT_DELAY) {
 				gearsReverse();
 				timer.reset();
 			}
