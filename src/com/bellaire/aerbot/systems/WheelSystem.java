@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class WheelSystem extends PIDSubsystem implements RobotSystem {
 
 	public static final double SHIFT_DELAY = 0.5;
-	public static final double Kp = .1;
-	public static final double Ki = 0;
-	public static final double Kd = 0.0;
-	public static final double SHIFTING_SPEED = 2;
+	public static double Kp = -.08;
+	public static double Ki = 0;
+	public static double Kd = 0.0;
+	public static final double SHIFTING_SPEED = 1.8;
 	public static final double RAMPING = 0.5;
 
 	private RobotDrive3 wheels;
@@ -35,9 +35,9 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 
 	private AccelerometerSystem accelerometer;
 	private Timer timer;
-	private boolean automatic = false;
+	private boolean automatic = true;
 
-	private boolean disableStraightDrive = true;
+	private boolean disableStraightDrive = false;
 	private boolean disableStraightDrivePressed;
 
 	public WheelSystem() {
@@ -84,10 +84,13 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 	}
 
 	public void straightDrive(double moveValue) throws NullPointerException{
+		// set correct heading
 		if (!straightDriving) {
 			heading = gyro.getAngle();
+			getPIDController().reset();
 		}
 		straightDriving = true;
+		// correct error in heading if error more than 2 degrees
 		if (Math.abs(heading - gyro.getAngle()) > 2
 				&& !getPIDController().isEnable()) {
 			setSetpoint(heading);
@@ -97,18 +100,18 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 			disable();
 			correctRotate = 0;
 		}
-		wheels.arcadeDrive(moveValue, correctRotate);
+		arcadeDrive(moveValue, dir * Math.signum(currentRampY) * correctRotate);
 	}
 
 	public void automaticGearShift() {
-		if (Math.abs(accelerometer.getSpeed()) > SHIFTING_SPEED && gear == 1) {
-			if (timer.get() > SHIFT_DELAY) {
+		//only autoshift once every half second
+		if(timer.get() > SHIFT_DELAY){
+			//shift based on speed from accelerometer and only when on the wrong gear
+			if (Math.abs(accelerometer.getSpeed()) > SHIFTING_SPEED && gear == 0 && Math.abs(currentLeftY) > .75) {
+				// also only shift into high gear if throttle is high
 				gearsOff();
 				timer.reset();
-			}
-		} else if (Math.abs(accelerometer.getSpeed()) <= SHIFTING_SPEED
-				&& gear == 0) {
-			if (timer.get() > SHIFT_DELAY) {
+			} else if (Math.abs(accelerometer.getSpeed()) <= SHIFTING_SPEED && gear == 1) {
 				gearsReverse();
 				timer.reset();
 			}
@@ -121,7 +124,7 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 		currentRampY += (currentLeftY - currentRampY) * RAMPING;
 
 		if (!disableStraightDrive && Math.abs(input.getLeftY()) > .15
-				&& Math.abs(input.getRightX()) < .10)
+				&& Math.abs(input.getRightX()) < .15)
 			straightDrive(currentRampY * dir);
 		else{
 			wheels.arcadeDrive(currentRampY * dir, input.getRightX());
@@ -129,11 +132,16 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 		}
 
 		try {
-			SmartDashboard.putBoolean("Low gear: ", gear == 1);
-			SmartDashboard.putBoolean("Automatic shifting: ", automatic);
+			SmartDashboard.putBoolean("Low gear: ", gear == 0);
 			SmartDashboard.putBoolean("Switched front: ", dir == -1);
+			SmartDashboard.putBoolean("Automatic shifting: ", automatic);
 			SmartDashboard.putBoolean("Straight driving: ", straightDriving);
 			SmartDashboard.putNumber("Angle: ", gyro.getHeading());
+			SmartDashboard.putNumber("Ramped Movement: ", currentRampY);
+			SmartDashboard.putNumber("Rotation Input: " , input.getRightX());
+			SmartDashboard.putBoolean("Straight driving disabled: ", disableStraightDrive);
+			SmartDashboard.putNumber("Straight drive setpoint: ", getSetpoint());
+			SmartDashboard.putData("Straight drive PID: ", getPIDController());//PID tuning in smart dashboard
 		} catch (NullPointerException ex) {
 
 		}
@@ -170,7 +178,8 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 			}
 		}
 
-		if (automatic)
+		//don't autoshift while turning
+		if (automatic && Math.abs(input.getRightX()) < 0.15)
 			automaticGearShift();
 
 		if (!dirToggle) {
@@ -191,9 +200,9 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 		return gyro.getAngle();
 	}
 
-	protected void usePIDOutput(double d) {
-		SmartDashboard.putNumber("Straight drive PID: ", d);
-		correctRotate = d;
+	protected void usePIDOutput(double value) {
+		SmartDashboard.putNumber("Straight drive PID: ", value);
+		correctRotate = value;
 	}
 
 	protected void initDefaultCommand() {

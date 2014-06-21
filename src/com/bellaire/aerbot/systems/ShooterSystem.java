@@ -21,7 +21,7 @@ public class ShooterSystem implements RobotSystem {
         this.env = e;
         shooter = new Victor(4);
         shooter.set(0);
-        lift = new Relay(6);
+        lift = new Relay(8);
         
         lift.set(Relay.Value.kOff);
     }

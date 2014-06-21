@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.bellaire.aerbot.systems;
 
 import com.bellaire.aerbot.Environment;
@@ -39,12 +34,13 @@ public class AccelerometerSystem implements RobotSystem {
     return accel.getAcceleration(ADXL345_I2C.Axes.kZ);
   }
 
-  public double getSpeed() {
+  public synchronized double getSpeed() {
 	if(timer.get() > .75)
 	  timer.reset();
-    speed += getAccelerationX() * 9.8 * timer.get();
-    if(Math.abs(getAccelerationX()) < 0.1 && Math.abs(speed) < 0.25)
-      speed = 0;//reset accelerometer if relatively no acceleration and no speed
+	if(Math.abs(getAccelerationX()) > 0.15 && Math.abs(getAccelerationY()) < .08)
+		speed += getAccelerationX() * 9.8 * timer.get();
+	else if(Math.abs(getAccelerationX()) < 0.15 && Math.abs(speed) < 0.5)
+      speed = 0;//reset value if relatively no acceleration and no speed
     timer.reset();
     return speed;
   }
