@@ -38,7 +38,6 @@ public class AutonomousListener implements Listener {
         	}catch(NullPointerException ex){
         		env.getWheelSystem().arcadeDrive(0.5, 0.007);
         	}
-            //env.getShooterSystem().open();
         } else if(now - time < 5500 && time != -1) {
         	try{
         		env.getWheelSystem().straightDrive(0.1);
@@ -50,7 +49,6 @@ public class AutonomousListener implements Listener {
         	//stop motors
         	env.getIntakeSystem().setMotor(0);
         	env.getWheelSystem().drive(0, 0);
-        	//env.getShooterSystem().close();
         }
     }
     
