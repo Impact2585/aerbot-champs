@@ -35,9 +35,9 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 
 	private AccelerometerSystem accelerometer;
 	private Timer timer;
-	private boolean automatic = true;
+	private boolean automatic = false;
 
-	private boolean disableStraightDrive = false;
+	private boolean disableStraightDrive = true;
 	private boolean disableStraightDrivePressed;
 
 	public WheelSystem() {
@@ -100,7 +100,8 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 			disable();
 			correctRotate = 0;
 		}
-		arcadeDrive(moveValue, dir * Math.signum(currentRampY) * correctRotate);
+		// TODO add in signnum(currentY) since Java ME lacks it
+		arcadeDrive(moveValue, dir * correctRotate);
 	}
 
 	public void automaticGearShift() {
