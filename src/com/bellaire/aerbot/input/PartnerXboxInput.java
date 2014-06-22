@@ -79,5 +79,9 @@ public class PartnerXboxInput implements InputMethod {
             return 0;
         }
     }
+
+	public boolean straightDrive() {
+		return driver.getRawButton(7);// driver's back button
+	}
     
 }

@@ -12,10 +12,10 @@ public class IntakeSystem implements RobotSystem {
     private Jaguar intake;
     private Relay intakeLift;
     
-    private boolean isIntakeToggled = false, catchToggle = false;
+    private boolean isIntakeToggled = false, catchToggle = false, catching;
     
-    public void init(Environment e) {
-        this.env = e;
+    public void init(Environment environment) {
+        this.env = environment;
         intake = new Jaguar(7);
         intakeLift = new Relay(5);
         
@@ -23,7 +23,8 @@ public class IntakeSystem implements RobotSystem {
     }
 
     public void destroy() {
-        
+        intake.free();
+        intakeLift.free();
     }
     
     // Intake
@@ -41,7 +42,8 @@ public class IntakeSystem implements RobotSystem {
             intake.set(1);
             isIntakeToggled = true;
         } else if (isIntakeToggled && !env.getInput().intakeToggle()) { // set to default state
-            this.close();
+        	if(!catching)
+        		this.close();
             intake.set(0);
             isIntakeToggled = false;
         }
@@ -60,19 +62,18 @@ public class IntakeSystem implements RobotSystem {
         // Catch
         // Interacts with shooter pneumatic
         // (Can be moved into its own subsystem)
-        if(catchToggle == false) {
-            if(env.getInput().catchBall()) {
-                catchToggle = true;
-                if(intakeLift.get() == Relay.Value.kForward) {
-                    intakeLift.set(Relay.Value.kReverse);
-                    env.getShooterSystem().close();
-                    env.getShooterSystem().setMotor(0);
-                } else {
-                    intakeLift.set(Relay.Value.kForward);
-                    env.getShooterSystem().open();
-                    env.getShooterSystem().setMotor(-.25);
-                }
-            }
+        if(!catchToggle && env.getInput().catchBall()) {
+        	catchToggle = true;
+        	catching = !catching;
+        	if(intakeLift.get() == Relay.Value.kForward) {
+        		intakeLift.set(Relay.Value.kReverse);
+        		env.getShooterSystem().close();
+        		env.getShooterSystem().setMotor(0);
+        	} else {
+        		intakeLift.set(Relay.Value.kForward);
+        		env.getShooterSystem().open();
+        		env.getShooterSystem().setMotor(-.25);
+        	}
         }
         if(!env.getInput().catchBall()) {
             catchToggle = false;

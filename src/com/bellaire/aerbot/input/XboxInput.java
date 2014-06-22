@@ -50,7 +50,7 @@ public class XboxInput implements InputMethod {
     }
     
     public boolean catchBall() {
-        return false;
+        return controller.getRawButton(8);//catch ball is start button
     }
     
     public boolean shoot() {
@@ -78,4 +78,8 @@ public class XboxInput implements InputMethod {
             return 0;
         }
     }
+
+	public boolean straightDrive() {
+		return false;
+	}
 }
