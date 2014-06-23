@@ -42,16 +42,16 @@ public class AutonomousListener implements Listener {
         	}
         } else if(now - time < 6000 && time != -1) {
             env.getWheelSystem().arcadeDrive(.65, 0);
-           // env.getShooterSystem().setMotor(1);
-        } else if(now - time < 70 && time != -1) {
-            //env.getShooterSystem().open();
+           env.getShooterSystem().setMotor(1);
+        } else if(now - time < 6500 && time != -1) {
+           env.getShooterSystem().open();
             
         }else {
         	//stop motors
         	env.getIntakeSystem().setMotor(0);
         	env.getWheelSystem().drive(0, 0);
-                env.getShooterSystem().setMotor(0);
-                env.getShooterSystem().close();
+			env.getShooterSystem().setMotor(0);
+			env.getShooterSystem().close();
         }
     }
     

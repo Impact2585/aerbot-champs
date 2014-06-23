@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class WheelSystem extends PIDSubsystem implements RobotSystem {
+public class WheelSystem implements RobotSystem {
 
 	public static final double SHIFT_DELAY = 0.5;
 	public static double Kp = -.08;
@@ -17,6 +17,8 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 	public static double Kd = 0.0;
 	public static final double SHIFTING_SPEED = 1.8;
 	public static final double RAMPING = 0.5;
+	
+	private StraightDrivePID straightDrivePID;
 
 	private RobotDrive3 wheels;
 
@@ -41,7 +43,7 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 	private boolean disableStraightDrivePressed;
 
 	public WheelSystem() {
-		super(Kp, Ki, Kd);
+
 	}
 
 	public void init(Environment e) {
@@ -59,6 +61,147 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 
 		timer = new Timer();
 		timer.start();
+		
+		straightDrivePID = new StraightDrivePID();
+	}
+	
+	public class StraightDrivePID extends PIDSubsystem{
+		
+		public StraightDrivePID(){
+			super(Kp, Ki, Kd);
+		}
+		
+		protected double returnPIDInput() {
+			return gyro.getAngle();
+		}
+
+		protected void usePIDOutput(double value) {
+			//SmartDashboard.putNumber("Straight drive PID: ", value);
+			correctRotate = value;
+		}
+
+		protected void initDefaultCommand() {
+
+		}
+	}
+	
+	/**
+	 * resets straightDrivePID's PIDController
+	 */
+	public void resetStraightDrivePID(){
+		straightDrivePID.getPIDController().reset();
+	}
+	
+	/**
+	 * @return if straightDrivePID's PIDController is enabled
+	 */
+	public boolean straightDriveControllerEnabled(){
+		return straightDrivePID.getPIDController().isEnable();
+	}
+	
+	/**
+	 * @param setpoint
+	 */
+	public void setStraightDrivePIDSetpoint(double setpoint){
+		straightDrivePID.setSetpoint(setpoint);
+	}
+	
+	/**
+	 * calls enable()
+	 */
+	public void enableStraightDrivePID(){
+		straightDrivePID.enable();
+	}
+	
+	/**
+	 * calls disable()
+	 */
+	public void disableStraightDrivePID(){
+		straightDrivePID.disable();
+	}
+
+	/**
+	 * @return the gyro
+	 */
+	protected GyroSystem getGyro() {
+		return gyro;
+	}
+
+	/**
+	 * @param gyro the gyro to set
+	 */
+	protected void setGyro(GyroSystem gyro) {
+		this.gyro = gyro;
+	}
+
+	/**
+	 * @return the accelerometer
+	 */
+	protected AccelerometerSystem getAccelerometer() {
+		return accelerometer;
+	}
+
+	/**
+	 * @param accelerometer the accelerometer to set
+	 */
+	protected void setAccelerometer(AccelerometerSystem accelerometer) {
+		this.accelerometer = accelerometer;
+	}
+
+	/**
+	 * @return the correctRotate
+	 */
+	protected double getCorrectRotate() {
+		return correctRotate;
+	}
+
+	/**
+	 * @param correctRotate the correctRotate to set
+	 */
+	protected void setCorrectRotate(double correctRotate) {
+		this.correctRotate = correctRotate;
+	}
+
+	/**
+	 * @return the gear
+	 */
+	public int getGear() {
+		return gear;
+	}
+
+	/**
+	 * @param gear the gear to set
+	 */
+	protected void setGear(int gear) {
+		this.gear = gear;
+	}
+
+	/**
+	 * @return the currentLeftY
+	 */
+	protected double getCurrentLeftY() {
+		return currentLeftY;
+	}
+
+	/**
+	 * @param currentLeftY the currentLeftY to set
+	 */
+	protected void setCurrentLeftY(double currentLeftY) {
+		this.currentLeftY = currentLeftY;
+	}
+
+	/**
+	 * @return the timer
+	 */
+	protected Timer getTimer() {
+		return timer;
+	}
+
+	/**
+	 * @param timer the timer to set
+	 */
+	protected void setTimer(Timer timer) {
+		this.timer = timer;
 	}
 
 	public void gearsOff() {
@@ -74,6 +217,19 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 	public void destroy() {
 
 	}
+	
+	/**
+	 * @param moveValue
+	 * @return equivilent of signnum
+	 */
+	public int actualMovementDirection(double moveValue){
+		if(moveValue == 0)
+			return 0;
+		else if(moveValue > 0)
+			return 1;
+		else
+			return -1;
+	}
 
 	public void drive(double outputMaginitude, double curve) {
 		wheels.drive(outputMaginitude, curve);
@@ -87,21 +243,20 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 		// set correct heading
 		if (!straightDriving) {
 			heading = gyro.getAngle();
-			getPIDController().reset();
+			resetStraightDrivePID();
 		}
 		straightDriving = true;
 		// correct error in heading if error more than 2 degrees
 		if (Math.abs(heading - gyro.getAngle()) > 2
-				&& !getPIDController().isEnable()) {
-			setSetpoint(heading);
-			enable();
+				&& !straightDriveControllerEnabled()) {
+			setStraightDrivePIDSetpoint(heading);
+			enableStraightDrivePID();
 		} else if (Math.abs(heading - gyro.getAngle()) <= 2
-				&& getPIDController().isEnable()) {
-			disable();
+				&& straightDriveControllerEnabled()) {
+			disableStraightDrivePID();
 			correctRotate = 0;
 		}
-		// TODO add in signnum(currentY) since Java ME lacks it
-		arcadeDrive(moveValue, dir * correctRotate);
+		arcadeDrive(moveValue, actualMovementDirection(moveValue) * correctRotate);
 	}
 
 	public void automaticGearShift() {
@@ -110,10 +265,10 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 			//shift based on speed from accelerometer and only when on the wrong gear
 			if (Math.abs(accelerometer.getSpeed()) > SHIFTING_SPEED && gear == 0 && Math.abs(currentLeftY) > .75) {
 				// also only shift into high gear if throttle is high
-				gearsOff();
+				gearsReverse();
 				timer.reset();
 			} else if (Math.abs(accelerometer.getSpeed()) <= SHIFTING_SPEED && gear == 1) {
-				gearsReverse();
+				gearsOff();
 				timer.reset();
 			}
 		}
@@ -141,8 +296,6 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 			SmartDashboard.putNumber("Ramped Movement: ", currentRampY);
 			SmartDashboard.putNumber("Rotation Input: " , input.getRightX());
 			SmartDashboard.putBoolean("Straight driving disabled: ", disableStraightDrive);
-			SmartDashboard.putNumber("Straight drive setpoint: ", getSetpoint());
-			SmartDashboard.putData("Straight drive PID: ", getPIDController());//PID tuning in smart dashboard
 		} catch (NullPointerException ex) {
 
 		}
@@ -195,19 +348,6 @@ public class WheelSystem extends PIDSubsystem implements RobotSystem {
 		if (!disableStraightDrivePressed && input.straightDrive())
 			disableStraightDrive = !disableStraightDrive;
 		disableStraightDrivePressed = input.straightDrive();
-	}
-
-	protected double returnPIDInput() {
-		return gyro.getAngle();
-	}
-
-	protected void usePIDOutput(double value) {
-		SmartDashboard.putNumber("Straight drive PID: ", value);
-		correctRotate = value;
-	}
-
-	protected void initDefaultCommand() {
-
 	}
 
 }
