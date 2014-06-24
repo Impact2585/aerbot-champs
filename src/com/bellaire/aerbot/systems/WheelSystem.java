@@ -37,9 +37,9 @@ public class WheelSystem implements RobotSystem {
 
 	private AccelerometerSystem accelerometer;
 	private Timer timer;
-	private boolean automatic = false;
+	private boolean automatic = true;
 
-	private boolean disableStraightDrive = true;
+	private boolean disableStraightDrive = false;
 	private boolean disableStraightDrivePressed;
 
 	public WheelSystem() {

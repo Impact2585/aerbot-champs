@@ -37,9 +37,8 @@ public class AccelerometerSystem implements RobotSystem {
   public synchronized double getSpeed() {
 	if(timer.get() > .75)
 	  timer.reset();
-	if(Math.abs(getAccelerationX()) > 0.15 && Math.abs(getAccelerationY()) < .08)
-		speed += getAccelerationX() * 9.8 * timer.get();
-	else if(Math.abs(getAccelerationX()) < 0.15 && Math.abs(speed) < 0.5)
+	speed += getAccelerationX() * 9.8 * timer.get();
+	if(Math.abs(getAccelerationX()) < 0.15 && Math.abs(speed) < 0.5)
       speed = 0;//reset value if relatively no acceleration and no speed
     timer.reset();
     return speed;
