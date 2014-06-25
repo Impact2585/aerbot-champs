@@ -22,7 +22,18 @@ public class Environment {
     
     private GyroSystem gyro;
     private AccelerometerSystem accel;
+    
+    /**
+     * initializes nothing
+     */
+    public Environment(){
+    	
+    }
 
+    /**
+     * Initializes systems
+     * @param robot
+     */
     public Environment(RobotBase robot) {
         this.robot = robot;
         
@@ -44,34 +55,58 @@ public class Environment {
         this.intake.init(this);
     }
     
+    /**
+     * @return input
+     */
     public InputMethod getInput() {
         return input;
     }
     
+    /**
+     * @return wheels
+     */
     public WheelSystem getWheelSystem() {
         return wheels;
     }
     
+    /**
+     * @return shooter
+     */
     public ShooterSystem getShooterSystem() {
         return shooter;
     }
     
+    /**
+     * @return intake
+     */
     public IntakeSystem getIntakeSystem() {
         return intake;
     }
     
+    /**
+     * @return gyro
+     */
     public GyroSystem getGyroSystem() {
         return gyro;
     }
 
+    /**
+     * @return accelerometer
+     */
     public AccelerometerSystem getAccelerometerSystem() {
         return accel;
     }
     
+    /**
+     * @return if the robot is in auton mode
+     */
     public boolean isAutonomous() {
         return robot.isAutonomous();
     }
     
+    /**
+     * @return if robot is in teleop mode
+     */
     public boolean isOperatorControl() {
         return robot.isOperatorControl();
     }

@@ -5,10 +5,20 @@ import edu.wpi.first.wpilibj.communication.UsageReporting;
 
 public class RobotDrive3 extends RobotDrive {
 
+    /**
+     * @param leftMotorChannel
+     * @param rightMotorChannel
+     */
     public RobotDrive3(int leftMotorChannel, int rightMotorChannel) {
         super(leftMotorChannel, rightMotorChannel);
     }
     
+	/**
+	 * @param frontLeftMotor
+	 * @param rearLeftMotor
+	 * @param frontRightMotor
+	 * @param rearRightMotor
+	 */
 	public RobotDrive3(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor)  {
 		super(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor) ;
 	}
@@ -63,6 +73,12 @@ public class RobotDrive3 extends RobotDrive {
     }
     
     
+    /**
+     * Move the robot with mecanum wheels. Not currently used.
+     * @param yMovement
+     * @param xMovement
+     * @param rotation
+     */
     public void mecanumDrive(double yMovement, double xMovement, double rotation) {
     	double frontLeftMotorSpeed, rearLeftMotorSpeed, frontRightMotorSpeed, rearRightMotorSpeed;
 

@@ -42,11 +42,17 @@ public class WheelSystem implements RobotSystem {
 	private boolean disableStraightDrive = false;
 	private boolean disableStraightDrivePressed;
 
+	/**
+	 * Nothing is done in this constructor
+	 */
 	public WheelSystem() {
 
 	}
 
-	public void init(Environment e) {
+	/* (non-Javadoc)
+	 * @see com.bellaire.aerbot.systems.RobotSystem#init(com.bellaire.aerbot.Environment)
+	 */
+	public void init(Environment environment) {
 		wheels = new RobotDrive3(1, 2);
 
 		gearbox = new Relay(2);
@@ -55,9 +61,9 @@ public class WheelSystem implements RobotSystem {
 		wheels.setSafetyEnabled(false);
 		// this.motion = e.getMotionTracker();
 
-		gyro = e.getGyroSystem();
+		gyro = environment.getGyroSystem();
 
-		accelerometer = e.getAccelerometerSystem();
+		accelerometer = environment.getAccelerometerSystem();
 
 		timer = new Timer();
 		timer.start();
@@ -204,16 +210,25 @@ public class WheelSystem implements RobotSystem {
 		this.timer = timer;
 	}
 
+	/**
+	 * Shifts to low gear
+	 */
 	public void gearsOff() {
 		gear = 0;
 		gearbox.set(Relay.Value.kOff);
 	}
 
+	/**
+	 * Shifts to high gear
+	 */
 	public void gearsReverse() {
 		gear = 1;
 		gearbox.set(Relay.Value.kReverse);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.bellaire.aerbot.systems.RobotSystem#destroy()
+	 */
 	public void destroy() {
 
 	}
@@ -231,14 +246,27 @@ public class WheelSystem implements RobotSystem {
 			return -1;
 	}
 
+	/**
+	 * @param outputMaginitude
+	 * @param curve
+	 */
 	public void drive(double outputMaginitude, double curve) {
 		wheels.drive(outputMaginitude, curve);
 	}
 
+	/**
+	 * @param moveValue
+	 * @param rotateValue
+	 */
 	public void arcadeDrive(double moveValue, double rotateValue) {
 		wheels.arcadeDrive(moveValue, rotateValue);
 	}
 
+	/**
+	 * Uses PID and gyro to drive straight
+	 * @param moveValue movement value
+	 * @throws NullPointerException if gyro is null
+	 */
 	public void straightDrive(double moveValue) throws NullPointerException{
 		// set correct heading
 		if (!straightDriving) {
@@ -259,6 +287,9 @@ public class WheelSystem implements RobotSystem {
 		arcadeDrive(moveValue, actualMovementDirection(moveValue) * correctRotate);
 	}
 
+	/**
+	 * Shift gears automatically if necessary
+	 */
 	public void automaticGearShift() {
 		//only autoshift once every half second
 		if(timer.get() > SHIFT_DELAY){
@@ -274,6 +305,10 @@ public class WheelSystem implements RobotSystem {
 		}
 	}
 
+	/**
+	 * move according to input
+	 * @param input input from driver
+	 */
 	public void move(InputMethod input) {
 		currentLeftY = -input.getLeftY();
 

@@ -17,8 +17,11 @@ public class ShooterSystem implements RobotSystem {
     private boolean shotPress;
     private boolean manualShooting;
     
-    public void init(Environment e) {
-        this.env = e;
+    /* (non-Javadoc)
+     * @see com.bellaire.aerbot.systems.RobotSystem#init(com.bellaire.aerbot.Environment)
+     */
+    public void init(Environment env) {
+        this.env = env;
         shooter = new Victor(4);
         shooter.set(0);
         lift = new Relay(8);
@@ -26,22 +29,39 @@ public class ShooterSystem implements RobotSystem {
         lift.set(Relay.Value.kOff);
     }
     
+    /**
+     * Shooter down
+     */
     public void open() {
         lift.set(Relay.Value.kForward);
     }
     
+    /**
+     * Shooter up at default position
+     */
     public void close() {
         lift.set(Relay.Value.kOff);
     }
     
+    /**
+     * sets speed of shooter motor
+     * @param speed value should be from 0 to 1
+     */
     public void setMotor(double speed){
     	shooter.set(speed);
     }
     
+    /* (non-Javadoc)
+     * @see com.bellaire.aerbot.systems.RobotSystem#destroy()
+     */
     public void destroy() {
         
     }
     
+    /**
+     * controls shooter with given input
+     * @param input
+     */
     public void shoot(InputMethod input) {
         long current = System.currentTimeMillis();
         

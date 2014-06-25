@@ -14,6 +14,9 @@ public class IntakeSystem implements RobotSystem {
     
     private boolean isIntakeToggled = false, catchToggle = false, catching;
     
+    /* (non-Javadoc)
+     * @see com.bellaire.aerbot.systems.RobotSystem#init(com.bellaire.aerbot.Environment)
+     */
     public void init(Environment environment) {
         this.env = environment;
         intake = new Jaguar(7);
@@ -22,17 +25,23 @@ public class IntakeSystem implements RobotSystem {
         intakeLift.set(Relay.Value.kReverse);
     }
 
+    /* (non-Javadoc)
+     * @see com.bellaire.aerbot.systems.RobotSystem#destroy()
+     */
     public void destroy() {
         intake.free();
         intakeLift.free();
     }
     
-    // Intake
-    // ------
-    // Should be the only possible states:
-    //  1) Intake lift up. Intake motors stopped. (default state)
-    //  2) Intake lift down. Intake motors intaking.
-    //  3) Intake lift up. Intake motors outtaking.
+	/**
+	 * Intake Should be the only possible states: 1) Intake lift up. Intake
+	 * motors stopped. (default state) 2) Intake lift down. Intake motors
+	 * intaking. 3) Intake lift up. Intake motors outtaking.
+	 * 
+	 * controls intake mechanism according to input
+	 * 
+	 * @param input
+	 */
     public void intake(InputMethod input) {
         // Auto intake (w/ toggling)
         //  Toggle on will auto intake.
@@ -80,14 +89,24 @@ public class IntakeSystem implements RobotSystem {
         }
     }
 
+    /**
+     * intake forward
+     */
     public void open() {
         intakeLift.set(Relay.Value.kForward);
     }
     
+    /**
+     * intake pneumatic goes back
+     */
     public void close() {
         intakeLift.set(Relay.Value.kReverse);
     }
     
+    /**
+     * set speed of intake motor
+     * @param speed value should be between from 0 to 1
+     */
     public void setMotor(double speed){
     	intake.set(speed);
     }

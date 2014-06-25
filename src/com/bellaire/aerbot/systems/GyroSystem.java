@@ -12,12 +12,18 @@ public class GyroSystem implements RobotSystem {
   private double lastAngle;
   private double error;
 
+  /* (non-Javadoc)
+   * @see com.bellaire.aerbot.systems.RobotSystem#init(com.bellaire.aerbot.Environment)
+   */
   public void init(Environment e) {
     gyro = new Gyro(2);
     timer = new Timer();
     timer.start();
   }
 
+  /**
+   * @return heading of robot in degrees value will be from 0 to 360
+   */
   public synchronized double getHeading() {
     double output = getAngle();
 
@@ -29,25 +35,35 @@ public class GyroSystem implements RobotSystem {
     return output % 360;
   }
   
+  /**
+   * Filters drift less then 1 degree per second
+   * @return angle of robot with gyro.getAngle()\
+   */
   public synchronized double getAngle(){
-	  double output = gyro.getAngle();
+    double output = gyro.getAngle();
 	  
-	  //prevent drift by ignoring change less than 1 degree in a second
-	  if(timer.get() > 1){
-		  if(Math.abs(output - lastAngle) < 1)
-			  error += output - lastAngle;
-		  timer.reset();
-		  lastAngle = output;
-	  }
-	  output -= error;
-	  
-	  return output;
+    //prevent drift by ignoring change less than 1 degree in a second
+    if(timer.get() > 1){
+      if(Math.abs(output - lastAngle) < 1)
+        error += output - lastAngle;
+      timer.reset();
+      lastAngle = output;
+    }
+    output -= error;
+
+    return output;
   }
 
+  /**
+   * resets gyro
+   */
   public void reset() {
     gyro.reset();
   }
 
+  /* (non-Javadoc)
+   * @see com.bellaire.aerbot.systems.RobotSystem#destroy()
+   */
   public void destroy() {
     gyro.free();
   }

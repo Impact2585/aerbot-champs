@@ -18,67 +18,125 @@ import edu.wpi.first.wpilibj.Joystick;
 */
 
 public class XboxInput implements InputMethod {
+	
+	public static final int LEFT_X_AXIS = 1;
+	public static final int LEFT_Y_AXIS = 2;
+	public static final int RIGHT_X_AXIS = 4;
+	public static final int RIGHT_Y_AXIS = 5;
 
+	public static final int A_BUTTON = 1;
+	public static final int B_BUTTON = 2;
+	public static final int X_BUTTON = 3;
+	public static final int Y_BUTTON = 4;
+	public static final int LEFT_BUMPER = 5;
+	public static final int RIGHT_BUMPER = 6;
+	public static final int BACK_BUTTON = 7;
+	public static final int START_BUTTON = 8;
+	public static final int LEFT_JOYSTICK_BUTTON = 9;
+	public static final int RIGHT_JOYSTICK_BUTTON = 10;
+	
     private Joystick controller;
     
+    /**
+     * initializes Joystick on port 1
+     */
     public XboxInput() {
         controller = new Joystick(1);
     }
     
+    /* (non-Javadoc)
+     * @see com.bellaire.aerbot.input.InputMethod#intakeLift()
+     */
     public boolean intakeLift() {
         return false;
     }
     
+    /* (non-Javadoc)
+     * @see com.bellaire.aerbot.input.InputMethod#getLeftX()
+     */
     public double getLeftX() {
-        return controller.getRawAxis(1);
+        return controller.getRawAxis(LEFT_X_AXIS);
     }
 
+    /* (non-Javadoc)
+     * @see com.bellaire.aerbot.input.InputMethod#getRightX()
+     */
     public double getRightX() {
-        return controller.getRawAxis(4);
+        return controller.getRawAxis(RIGHT_X_AXIS);
     }
     
+    /* (non-Javadoc)
+     * @see com.bellaire.aerbot.input.InputMethod#getLeftY()
+     */
     public double getLeftY() {
-        return controller.getRawAxis(2);
+        return controller.getRawAxis(LEFT_Y_AXIS);
     }
 
+    /* (non-Javadoc)
+     * @see com.bellaire.aerbot.input.InputMethod#getRightY()
+     */
     public double getRightY() {
-        return controller.getRawAxis(5);
+        return controller.getRawAxis(RIGHT_Y_AXIS);
     }
     
+    /* (non-Javadoc)
+     * @see com.bellaire.aerbot.input.InputMethod#shift()
+     */
     public boolean shift() {
-        return controller.getRawButton(2);
+        return controller.getRawButton(B_BUTTON);
     }
     
+    /* (non-Javadoc)
+     * @see com.bellaire.aerbot.input.InputMethod#catchBall()
+     */
     public boolean catchBall() {
-        return controller.getRawButton(8);//catch ball is start button
+        return controller.getRawButton(START_BUTTON);//catch ball is start button
     }
     
+    /* (non-Javadoc)
+     * @see com.bellaire.aerbot.input.InputMethod#shoot()
+     */
     public boolean shoot() {
-        return controller.getRawButton(1);
+        return controller.getRawButton(A_BUTTON);
     }
     
+    /* (non-Javadoc)
+     * @see com.bellaire.aerbot.input.InputMethod#shooterLift()
+     */
     public boolean shooterLift() {
-        return controller.getRawButton(4);
+        return controller.getRawButton(Y_BUTTON);
     }
     
+    /* (non-Javadoc)
+     * @see com.bellaire.aerbot.input.InputMethod#intakeToggle()
+     */
     public boolean intakeToggle() {
-        return controller.getRawButton(3);
+        return controller.getRawButton(X_BUTTON);
     }
     
+    /* (non-Javadoc)
+     * @see com.bellaire.aerbot.input.InputMethod#directionToggle()
+     */
     public boolean directionToggle() {
         return false;
     }
     
+    /* (non-Javadoc)
+     * @see com.bellaire.aerbot.input.InputMethod#intake()
+     */
     public int intake() {
-        if(controller.getRawButton(5)) {
+        if(controller.getRawButton(LEFT_BUMPER)) {
             return 1;
-        } else if(controller.getRawButton(6)) {
+        } else if(controller.getRawButton(RIGHT_BUMPER)) {
             return 2;
         } else {
             return 0;
         }
     }
 
+	/* (non-Javadoc)
+	 * @see com.bellaire.aerbot.input.InputMethod#straightDrive()
+	 */
 	public boolean straightDrive() {
 		return false;
 	}

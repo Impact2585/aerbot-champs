@@ -12,7 +12,11 @@ public class Executer {
     
     private final Vector notRunning, running;
     
-    public Executer(Environment e) {
+    /**
+     * initializes listeners with given environment
+     * @param environment
+     */
+    public Executer(Environment environment) {
         notRunning = new Vector();
         running = new Vector();
 
@@ -22,11 +26,11 @@ public class Executer {
         ShooterListener sl = new ShooterListener();
         IntakeListener il = new IntakeListener();
         
-        ml.init(e);
-        al.init(e);
-        cl.init(e);
-        sl.init(e);
-        il.init(e);
+        ml.init(environment);
+        al.init(environment);
+        cl.init(environment);
+        sl.init(environment);
+        il.init(environment);
         
         notRunning.addElement(ml);
         notRunning.addElement(al);
@@ -35,49 +39,65 @@ public class Executer {
         notRunning.addElement(il);
     }
     
+    /**
+     * executes listeners which should run
+     */
     public void update() {
         for(int i = 0; i < notRunning.size(); i++) {
-            Listener l = (Listener) notRunning.elementAt(i);
-            if(l.shouldExecute() && this.canExecute(l)) {
-                this.execute(l);
+            Listener listener = (Listener) notRunning.elementAt(i);
+            if(listener.shouldExecute()) {
+                this.execute(listener);
             }
         }
         
         for(int i = 0; i < running.size(); i++) {
-            Listener l = (Listener) running.elementAt(i);
-            if(l.isComplete()) {
-                stop(l);
+            Listener listener = (Listener) running.elementAt(i);
+            if(listener.isComplete()) {
+                stop(listener);
             } else {
-                l.execute();
+                listener.execute();
             }
         }
     }
     
+    /**
+     * adds listener to running and removes it from notRunning
+     * @param listener
+     */
     public void execute(Listener listener) {
         running.addElement(listener);
         notRunning.removeElement(listener);
     }
     
-    public boolean canExecute(Listener listener) {
-        return true;
-    }
-    
+    /**
+     * removes listener from running and adds it to notRunning
+     * @param listener
+     */
     public void stop(Listener listener) {
         notRunning.addElement(listener);
         running.removeElement(listener);
     }
     
+    /**
+     * stops all listeners
+     */
     public void stopAll() {
         for(int i = 0; i < running.size(); i++) {
-            Listener l = (Listener) running.elementAt(i);
-            this.stop(l);
+            Listener listener = (Listener) running.elementAt(i);
+            this.stop(listener);
         }
     }
     
+    /**
+     * does nothing at the moment
+     */
     public void onTeleop() {
         
     }
     
+    /**
+     * does nothing at the moment
+     */
     public void onAutonomous() {
         
     }
