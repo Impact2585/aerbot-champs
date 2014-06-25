@@ -1,4 +1,4 @@
 aerbot-champs
 =============
 
-This is the repository for the 2014 FRC World Championship.
+This is the repository for aerbot used after the Lone Star Regional.
