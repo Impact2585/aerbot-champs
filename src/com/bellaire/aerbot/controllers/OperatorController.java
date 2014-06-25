@@ -7,8 +7,8 @@ import com.bellaire.aerbot.Executer;
 public class OperatorController extends Controller {
 
     /**
-     * @param env
-     * @param exec
+     * @param env Environment to be passed to superclass
+     * @param exec Executer to be passed to superclass
      */
     public OperatorController(Environment env, Executer exec) {
         super(env, exec);

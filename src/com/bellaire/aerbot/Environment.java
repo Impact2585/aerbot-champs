@@ -32,7 +32,7 @@ public class Environment {
 
     /**
      * Initializes systems
-     * @param robot
+     * @param robot the RobotBase to set
      */
     public Environment(RobotBase robot) {
         this.robot = robot;

@@ -5,12 +5,12 @@ import com.bellaire.aerbot.Executer;
 
 public abstract class Controller {
 
-    protected Environment env;
-    protected Executer exec;
+    private Environment env;
+    private Executer exec;
     
     /**
-	 * @param env
-	 * @param exec
+	 * @param env Environment to set
+	 * @param exec Executer to set
 	 */
 	public Controller(Environment env, Executer exec) {
 		this.env = env;
@@ -23,5 +23,19 @@ public abstract class Controller {
 	public void update() {
         exec.update();
     }
+
+	/**
+	 * @return the env
+	 */
+	protected Environment getEnv() {
+		return env;
+	}
+
+	/**
+	 * @param env the env to set
+	 */
+	protected void setEnv(Environment env) {
+		this.env = env;
+	}
     
 }

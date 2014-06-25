@@ -14,7 +14,7 @@ public class Executer {
     
     /**
      * initializes listeners with given environment
-     * @param environment
+     * @param environment environment to be passed to the listeners
      */
     public Executer(Environment environment) {
         notRunning = new Vector();
@@ -62,7 +62,7 @@ public class Executer {
     
     /**
      * adds listener to running and removes it from notRunning
-     * @param listener
+     * @param listener listener to execute
      */
     public void execute(Listener listener) {
         running.addElement(listener);
@@ -71,7 +71,7 @@ public class Executer {
     
     /**
      * removes listener from running and adds it to notRunning
-     * @param listener
+     * @param listener listener to stop
      */
     public void stop(Listener listener) {
         notRunning.addElement(listener);

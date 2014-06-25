@@ -6,7 +6,7 @@ public interface Listener {
     
     /**
      * initialize listener
-     * @param env
+     * @param env environment of the systems
      */
     public void init(Environment env);
     

@@ -40,7 +40,7 @@ public class IntakeSystem implements RobotSystem {
 	 * 
 	 * controls intake mechanism according to input
 	 * 
-	 * @param input
+	 * @param input input from driver
 	 */
     public void intake(InputMethod input) {
         // Auto intake (w/ toggling)

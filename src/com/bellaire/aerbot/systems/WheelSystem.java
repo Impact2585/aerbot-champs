@@ -71,21 +71,36 @@ public class WheelSystem implements RobotSystem {
 		straightDrivePID = new StraightDrivePID();
 	}
 	
+	/**
+	 * PIDSubsystem subclass for straight driving with gyro
+	 */
 	public class StraightDrivePID extends PIDSubsystem{
 		
+		/**
+		 * passes Kp, Ki and Kd to super
+		 */
 		public StraightDrivePID(){
 			super(Kp, Ki, Kd);
 		}
 		
+		/* (non-Javadoc)
+		 * @see edu.wpi.first.wpilibj.command.PIDSubsystem#returnPIDInput()
+		 */
 		protected double returnPIDInput() {
 			return gyro.getAngle();
 		}
 
+		/* (non-Javadoc)
+		 * @see edu.wpi.first.wpilibj.command.PIDSubsystem#usePIDOutput(double)
+		 */
 		protected void usePIDOutput(double value) {
 			//SmartDashboard.putNumber("Straight drive PID: ", value);
 			correctRotate = value;
 		}
 
+		/* (non-Javadoc)
+		 * @see edu.wpi.first.wpilibj.command.Subsystem#initDefaultCommand()
+		 */
 		protected void initDefaultCommand() {
 
 		}
@@ -106,7 +121,7 @@ public class WheelSystem implements RobotSystem {
 	}
 	
 	/**
-	 * @param setpoint
+	 * @param setpoint the target value
 	 */
 	public void setStraightDrivePIDSetpoint(double setpoint){
 		straightDrivePID.setSetpoint(setpoint);
@@ -234,7 +249,7 @@ public class WheelSystem implements RobotSystem {
 	}
 	
 	/**
-	 * @param moveValue
+	 * @param moveValue current movement value
 	 * @return equivilent of signnum
 	 */
 	public int actualMovementDirection(double moveValue){
@@ -247,16 +262,16 @@ public class WheelSystem implements RobotSystem {
 	}
 
 	/**
-	 * @param outputMaginitude
-	 * @param curve
+	 * @param outputMaginitude magnitude value
+	 * @param curve curve value
 	 */
 	public void drive(double outputMaginitude, double curve) {
 		wheels.drive(outputMaginitude, curve);
 	}
 
 	/**
-	 * @param moveValue
-	 * @param rotateValue
+	 * @param moveValue movement value from 0 to 1
+	 * @param rotateValue rotation value from 0 to 1
 	 */
 	public void arcadeDrive(double moveValue, double rotateValue) {
 		wheels.arcadeDrive(moveValue, rotateValue);

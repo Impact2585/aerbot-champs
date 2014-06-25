@@ -60,7 +60,7 @@ public class ShooterSystem implements RobotSystem {
     
     /**
      * controls shooter with given input
-     * @param input
+     * @param input input from driver
      */
     public void shoot(InputMethod input) {
         long current = System.currentTimeMillis();

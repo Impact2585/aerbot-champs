@@ -6,18 +6,18 @@ import edu.wpi.first.wpilibj.communication.UsageReporting;
 public class RobotDrive3 extends RobotDrive {
 
     /**
-     * @param leftMotorChannel
-     * @param rightMotorChannel
+     * @param leftMotorChannel port number of left motor
+     * @param rightMotorChannel port number of right motor
      */
     public RobotDrive3(int leftMotorChannel, int rightMotorChannel) {
         super(leftMotorChannel, rightMotorChannel);
     }
     
 	/**
-	 * @param frontLeftMotor
-	 * @param rearLeftMotor
-	 * @param frontRightMotor
-	 * @param rearRightMotor
+	 * @param frontLeftMotor port number of the front left motor
+	 * @param rearLeftMotor port number of the rear left motor
+	 * @param frontRightMotor port number of the front right motor
+	 * @param rearRightMotor port number of the rear right motor
 	 */
 	public RobotDrive3(int frontLeftMotor, int rearLeftMotor, int frontRightMotor, int rearRightMotor)  {
 		super(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor) ;
@@ -75,9 +75,9 @@ public class RobotDrive3 extends RobotDrive {
     
     /**
      * Move the robot with mecanum wheels. Not currently used.
-     * @param yMovement
-     * @param xMovement
-     * @param rotation
+     * @param yMovement y movement value from 0 to 1
+     * @param xMovement x movement value from 0 to 1
+     * @param rotation rotation value from 0 to 1
      */
     public void mecanumDrive(double yMovement, double xMovement, double rotation) {
     	double frontLeftMotorSpeed, rearLeftMotorSpeed, frontRightMotorSpeed, rearRightMotorSpeed;

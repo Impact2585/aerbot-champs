@@ -6,7 +6,7 @@ public interface RobotSystem {
 
 	/**
 	 * initialize the system
-     * @param environment
+     * @param environment environment of system
      */
     public void init(Environment environment);
     
