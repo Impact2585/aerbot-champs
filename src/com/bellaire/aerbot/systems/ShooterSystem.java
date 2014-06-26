@@ -45,7 +45,7 @@ public class ShooterSystem implements RobotSystem {
     
     /**
      * sets speed of shooter motor
-     * @param speed value should be from 0 to 1
+     * @param speed value should be from -1 to 1
      */
     public void setMotor(double speed){
     	shooter.set(speed);

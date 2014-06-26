@@ -270,8 +270,8 @@ public class WheelSystem implements RobotSystem {
 	}
 
 	/**
-	 * @param moveValue movement value from 0 to 1
-	 * @param rotateValue rotation value from 0 to 1
+	 * @param moveValue movement value from -1 to 1
+	 * @param rotateValue rotation value from -1 to 1
 	 */
 	public void arcadeDrive(double moveValue, double rotateValue) {
 		wheels.arcadeDrive(moveValue, rotateValue);

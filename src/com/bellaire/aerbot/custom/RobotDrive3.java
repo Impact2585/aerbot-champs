@@ -75,9 +75,9 @@ public class RobotDrive3 extends RobotDrive {
     
     /**
      * Move the robot with mecanum wheels. Not currently used.
-     * @param yMovement y movement value from 0 to 1
-     * @param xMovement x movement value from 0 to 1
-     * @param rotation rotation value from 0 to 1
+     * @param yMovement y movement value from -1 to 1
+     * @param xMovement x movement value from -1 to 1
+     * @param rotation rotation value from -1 to 1
      */
     public void mecanumDrive(double yMovement, double xMovement, double rotation) {
     	double frontLeftMotorSpeed, rearLeftMotorSpeed, frontRightMotorSpeed, rearRightMotorSpeed;

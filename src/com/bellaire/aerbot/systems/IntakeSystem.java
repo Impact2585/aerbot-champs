@@ -105,7 +105,7 @@ public class IntakeSystem implements RobotSystem {
     
     /**
      * set speed of intake motor
-     * @param speed value should be between from 0 to 1
+     * @param speed value should be between from -1 to 1
      */
     public void setMotor(double speed){
     	intake.set(speed);
