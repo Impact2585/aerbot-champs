@@ -8,6 +8,7 @@ import com.bellaire.aerbot.systems.IntakeSystem;
 import com.bellaire.aerbot.systems.ShooterSystem;
 import com.bellaire.aerbot.systems.WheelSystem;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.RobotBase;
 
 public class Environment {
@@ -22,6 +23,8 @@ public class Environment {
     
     private GyroSystem gyro;
     private AccelerometerSystem accel;
+
+	private Compressor compressor;
     
     /**
      * initializes nothing
@@ -53,6 +56,9 @@ public class Environment {
         
         this.intake = new IntakeSystem();
         this.intake.init(this);
+        
+        this.compressor = new Compressor(2, 1);
+        this.compressor.start();
     }
     
     /**
@@ -98,6 +104,13 @@ public class Environment {
     }
     
     /**
+	 * @return the compressor
+	 */
+	public Compressor getCompressor() {
+		return compressor;
+	}
+
+	/**
      * @return if the robot is in auton mode
      */
     public boolean isAutonomous() {

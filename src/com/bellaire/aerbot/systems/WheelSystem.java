@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class WheelSystem implements RobotSystem {
+public class WheelSystem implements RobotSystem, Runnable {
 
 	public static final double SHIFT_DELAY = 0.5;
 	public static double Kp = -.08;
@@ -22,6 +22,8 @@ public class WheelSystem implements RobotSystem {
 
 	private RobotDrive3 wheels;
 
+	private InputMethod inputMethod;
+	
 	private Relay gearbox;
 	private int gear = 0; // off
 	private boolean gearPress = false, dirToggle = false;
@@ -62,8 +64,8 @@ public class WheelSystem implements RobotSystem {
 		// this.motion = e.getMotionTracker();
 
 		gyro = environment.getGyroSystem();
-
 		accelerometer = environment.getAccelerometerSystem();
+		inputMethod = environment.getInput();
 
 		timer = new Timer();
 		timer.start();
@@ -320,6 +322,13 @@ public class WheelSystem implements RobotSystem {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
+	public void run(){
+		move(inputMethod);
+	}
+	
 	/**
 	 * move according to input
 	 * @param input input from driver
