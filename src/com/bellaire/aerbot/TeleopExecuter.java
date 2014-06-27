@@ -26,9 +26,9 @@ public class TeleopExecuter implements Executer {
 	 */
 	public void init(Environment environment) {
 		// add the runnable systems to runnables
-		runnables.add(environment.getIntakeSystem());
-		runnables.add(environment.getShooterSystem());
-		runnables.add(environment.getWheelSystem());
+		runnables.addElement(environment.getIntakeSystem());
+		runnables.addElement(environment.getShooterSystem());
+		runnables.addElement(environment.getWheelSystem());
 	}
 
 	/* (non-Javadoc)
