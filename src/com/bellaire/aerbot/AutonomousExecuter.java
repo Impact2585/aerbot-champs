@@ -1,9 +1,5 @@
 package com.bellaire.aerbot;
 
-/**
- * @author michael
- *
- */
 public class AutonomousExecuter implements Executer {
 
 	public static final int WAIT_LENGTH = 0;
