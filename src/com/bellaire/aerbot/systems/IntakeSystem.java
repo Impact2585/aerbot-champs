@@ -24,6 +24,8 @@ public class IntakeSystem implements RobotSystem, Runnable {
         intakeLift = new Relay(5);
         
         intakeLift.set(Relay.Value.kReverse);
+        
+        inputMethod = environment.getInput();
     }
 
     /* (non-Javadoc)
