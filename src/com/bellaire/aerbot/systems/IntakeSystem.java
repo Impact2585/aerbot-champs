@@ -2,15 +2,18 @@ package com.bellaire.aerbot.systems;
 
 import com.bellaire.aerbot.Environment;
 import com.bellaire.aerbot.input.InputMethod;
+
 import edu.wpi.first.wpilibj.Jaguar;
+import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.SpeedController;
 
 public class IntakeSystem implements RobotSystem, Runnable {
 
     private ShooterSystem shooter;
     private InputMethod inputMethod;
     
-    private Jaguar intake;
+    private SpeedController intake;
     private Relay intakeLift;
     
     private boolean isIntakeToggled = false, catchToggle = false, catching;
@@ -32,7 +35,10 @@ public class IntakeSystem implements RobotSystem, Runnable {
      * @see com.bellaire.aerbot.systems.RobotSystem#destroy()
      */
     public void destroy() {
-        intake.free();
+    	if(intake instanceof PWM){
+    		PWM motor = (PWM) intake;
+    		motor.free();
+    	}
         intakeLift.free();
     }
     
@@ -84,12 +90,12 @@ public class IntakeSystem implements RobotSystem, Runnable {
         if(!catchToggle && input.catchBall()) {
         	catchToggle = true;
         	catching = !catching;
-        	if(intakeLift.get() == Relay.Value.kForward) {
-        		intakeLift.set(Relay.Value.kReverse);
+        	if(intakeLiftState() == Relay.Value.kForward) {
+        		close();
         		shooter.close();
         		shooter.setMotor(0);
         	} else {
-        		intakeLift.set(Relay.Value.kForward);
+        		open();
         		shooter.open();
         		shooter.setMotor(-.25);
         	}
@@ -111,6 +117,10 @@ public class IntakeSystem implements RobotSystem, Runnable {
      */
     public void close() {
         intakeLift.set(Relay.Value.kReverse);
+    }
+    
+    public Relay.Value intakeLiftState(){
+    	return intakeLift.get();
     }
     
     /**

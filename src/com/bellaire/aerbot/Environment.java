@@ -124,4 +124,16 @@ public class Environment {
         return robot.isOperatorControl();
     }
     
+    /**
+     * Destroy all the things!
+     */
+    public void destroy(){
+    	wheels.destroy();
+    	shooter.destroy();
+    	intake.destroy();
+    	gyro.destroy();
+    	accel.destroy();
+    	compressor.free();
+    }
+    
 }

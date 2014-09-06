@@ -63,5 +63,13 @@ public class Aerbot extends IterativeRobot {
 	public void disabledPeriodic() {
 
 	}
+
+	/* (non-Javadoc)
+	 * @see edu.wpi.first.wpilibj.RobotBase#free()
+	 */
+	public void free() {
+		environment.destroy();
+		super.free();
+	}
     
 }

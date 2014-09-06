@@ -2,13 +2,16 @@ package com.bellaire.aerbot.systems;
 
 import com.bellaire.aerbot.Environment;
 import com.bellaire.aerbot.input.InputMethod;
+
+import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Victor;
 
 public class ShooterSystem implements RobotSystem, Runnable{
 
 	private InputMethod inputMethod;
-    private Victor shooter;
+    private SpeedController shooter;
     private Relay lift;
     
     // v2 code
@@ -56,7 +59,11 @@ public class ShooterSystem implements RobotSystem, Runnable{
      * @see com.bellaire.aerbot.systems.RobotSystem#destroy()
      */
     public void destroy() {
-        
+        if(shooter instanceof PWM){
+        	PWM motor = (PWM) shooter;
+        	motor.free();
+        }
+        lift.free();
     }
     
     /* (non-Javadoc)

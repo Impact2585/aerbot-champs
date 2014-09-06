@@ -247,7 +247,8 @@ public class WheelSystem implements RobotSystem, Runnable {
 	 * @see com.bellaire.aerbot.systems.RobotSystem#destroy()
 	 */
 	public void destroy() {
-
+		gearbox.free();
+		wheels.free();
 	}
 	
 	/**
@@ -301,7 +302,7 @@ public class WheelSystem implements RobotSystem, Runnable {
 			disableStraightDrivePID();
 			correctRotate = 0;
 		}
-		arcadeDrive(moveValue, actualMovementDirection(moveValue) * correctRotate);
+		arcadeDrive(moveValue, correctRotate);
 	}
 
 	/**
@@ -342,35 +343,39 @@ public class WheelSystem implements RobotSystem, Runnable {
 				&& Math.abs(input.getRightX()) < .15)
 			straightDrive(currentRampY * dir);
 		else{
-			wheels.arcadeDrive(currentRampY * dir, input.getRightX());
+			arcadeDrive(currentRampY * dir, input.getRightX());
 			straightDriving = false;
 		}
 
-		try {
-			SmartDashboard.putBoolean("Low gear: ", gear == 0);
-			SmartDashboard.putBoolean("Switched front: ", dir == -1);
-			SmartDashboard.putBoolean("Automatic shifting: ", automatic);
-			SmartDashboard.putBoolean("Straight driving: ", straightDriving);
-			SmartDashboard.putNumber("Angle: ", gyro.getHeading());
-			SmartDashboard.putNumber("Ramped Movement: ", currentRampY);
-			SmartDashboard.putNumber("Rotation Input: " , input.getRightX());
-			SmartDashboard.putBoolean("Straight driving disabled: ", disableStraightDrive);
-		} catch (NullPointerException ex) {
+		try{
+			try {
+				SmartDashboard.putBoolean("Low gear: ", gear == 0);
+				SmartDashboard.putBoolean("Switched front: ", dir == -1);
+				SmartDashboard.putBoolean("Automatic shifting: ", automatic);
+				SmartDashboard.putBoolean("Straight driving: ", straightDriving);
+				SmartDashboard.putNumber("Angle: ", gyro.getHeading());
+				SmartDashboard.putNumber("Ramped Movement: ", currentRampY);
+				SmartDashboard.putNumber("Rotation Input: " , input.getRightX());
+				SmartDashboard.putBoolean("Straight driving disabled: ", disableStraightDrive);
+			} catch (NullPointerException ex) {
 
-		}
-		try {
-			SmartDashboard.putNumber("AccelerationX: ",
-					accelerometer.getAccelerationX());
-			SmartDashboard.putNumber("AccelerationY: ",
-					accelerometer.getAccelerationY());
-			SmartDashboard.putNumber("AccelerationZ: ",
-					accelerometer.getAccelerationZ());
-		} catch (NullPointerException ex) {
+			}
+			try {
+				SmartDashboard.putNumber("AccelerationX: ",
+						accelerometer.getAccelerationX());
+				SmartDashboard.putNumber("AccelerationY: ",
+						accelerometer.getAccelerationY());
+				SmartDashboard.putNumber("AccelerationZ: ",
+						accelerometer.getAccelerationZ());
+			} catch (NullPointerException ex) {
 
-		}
-		try {
-			SmartDashboard.putNumber("Speed: ", accelerometer.getSpeed());
-		} catch (NullPointerException ex) {
+			}
+			try {
+				SmartDashboard.putNumber("Speed: ", accelerometer.getSpeed());
+			} catch (NullPointerException ex) {
+
+			}
+		}catch (UnsatisfiedLinkError ex){
 
 		}
 
