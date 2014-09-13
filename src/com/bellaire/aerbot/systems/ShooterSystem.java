@@ -16,7 +16,7 @@ public class ShooterSystem implements RobotSystem, Runnable{
     
     // v2 code
     private boolean shooting = false;
-    private long shootStart = 0, lastPress = 0;
+    private long shootStart = 0, lastPress = 0, current;
     private boolean shotPress;
     private boolean manualShooting;
     
@@ -78,7 +78,7 @@ public class ShooterSystem implements RobotSystem, Runnable{
      * @param input input from driver
      */
     public void shoot(InputMethod input) {
-        long current = System.currentTimeMillis();
+        current = System.currentTimeMillis();
         
         if(input.shoot() && current - lastPress > 500) { // fix da toggle
             lastPress = current;
@@ -122,5 +122,61 @@ public class ShooterSystem implements RobotSystem, Runnable{
         
         
     }
+
+	/**
+	 * @return the shootStart
+	 */
+	protected long getShootStart() {
+		return shootStart;
+	}
+
+	/**
+	 * @param shootStart the shootStart to set
+	 */
+	protected void setShootStart(long shootStart) {
+		this.shootStart = shootStart;
+	}
     
+    /**
+	 * @return the lastPress
+	 */
+	protected long getLastPress() {
+		return lastPress;
+	}
+
+	/**
+	 * @param lastPress the lastPress to set
+	 */
+	protected void setLastPress(long lastPress) {
+		this.lastPress = lastPress;
+	}
+
+	/**
+	 * @return the current
+	 */
+	protected long getCurrent() {
+		return current;
+	}
+
+	/**
+	 * @param current the current to set
+	 */
+	protected void setCurrent(long current) {
+		this.current = current;
+	}
+
+	/**
+	 * @return the shooter
+	 */
+	protected SpeedController getShooter() {
+		return shooter;
+	}
+
+	/**
+	 * @param shooter the shooter to set
+	 */
+	protected void setShooter(SpeedController shooter) {
+		this.shooter = shooter;
+	}
+
 }
