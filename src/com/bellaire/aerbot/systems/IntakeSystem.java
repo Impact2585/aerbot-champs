@@ -130,4 +130,18 @@ public class IntakeSystem implements RobotSystem, Runnable {
     public void setMotor(double speed){
     	intake.set(speed);
     }
+
+	/**
+	 * @param intake the intake to set
+	 */
+	protected void setIntake(SpeedController intake) {
+		this.intake = intake;
+	}
+
+	/**
+	 * @param shooter the shooter to set
+	 */
+	protected void setShooter(ShooterSystem shooter) {
+		this.shooter = shooter;
+	}
 }
