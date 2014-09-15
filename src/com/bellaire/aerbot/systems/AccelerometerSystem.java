@@ -45,14 +45,19 @@ public class AccelerometerSystem implements RobotSystem {
   public double getAccelerationZ() {
     return accel.getAcceleration(ADXL345_I2C.Axes.kZ);
   }
-  
-    
-  protected Timer getTimer(){
-    return this.timer;
+
+  /**
+   * @return the timer
+   */
+  protected Timer getTimer() {
+	  return timer;
   }
-  
-  protected Timer setTimer(Timer timer){
-    return this.timer = timer;
+
+  /**
+   * @param timer the timer to set
+   */
+  protected void setTimer(Timer timer) {
+	  this.timer = timer;
   }
 
   /**
