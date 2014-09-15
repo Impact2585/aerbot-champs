@@ -45,6 +45,15 @@ public class AccelerometerSystem implements RobotSystem {
   public double getAccelerationZ() {
     return accel.getAcceleration(ADXL345_I2C.Axes.kZ);
   }
+  
+    
+  protected Timer getTimer(){
+    return this.timer;
+  }
+  
+  protected Timer setTimer(Timer timer){
+    return this.timer = timer;
+  }
 
   /**
    * The speed is calculated by finding the integral of the x acceleration
