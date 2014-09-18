@@ -1,6 +1,4 @@
 com.bellaire.aerbot
-com.bellaire.aerbot.controllers
 com.bellaire.aerbot.custom
 com.bellaire.aerbot.input
-com.bellaire.aerbot.listeners
 com.bellaire.aerbot.systems
