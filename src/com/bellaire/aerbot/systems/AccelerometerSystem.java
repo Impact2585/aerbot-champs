@@ -47,6 +47,20 @@ public class AccelerometerSystem implements RobotSystem {
   }
 
   /**
+   * @return the timer
+   */
+  protected Timer getTimer() {
+	  return timer;
+  }
+
+  /**
+   * @param timer the timer to set
+   */
+  protected void setTimer(Timer timer) {
+	  this.timer = timer;
+  }
+
+  /**
    * The speed is calculated by finding the integral of the x acceleration
    * @return speed of robot in m/s
    */

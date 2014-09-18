@@ -2,14 +2,18 @@ package com.bellaire.aerbot.systems;
 
 import com.bellaire.aerbot.Environment;
 import com.bellaire.aerbot.input.InputMethod;
+
 import edu.wpi.first.wpilibj.Jaguar;
+import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.SpeedController;
 
-public class IntakeSystem implements RobotSystem {
+public class IntakeSystem implements RobotSystem, Runnable {
 
-    private Environment env;
+    private ShooterSystem shooter;
+    private InputMethod inputMethod;
     
-    private Jaguar intake;
+    private SpeedController intake;
     private Relay intakeLift;
     
     private boolean isIntakeToggled = false, catchToggle = false, catching;
@@ -18,19 +22,31 @@ public class IntakeSystem implements RobotSystem {
      * @see com.bellaire.aerbot.systems.RobotSystem#init(com.bellaire.aerbot.Environment)
      */
     public void init(Environment environment) {
-        this.env = environment;
+        shooter = environment.getShooterSystem();
         intake = new Jaguar(7);
         intakeLift = new Relay(5);
         
         intakeLift.set(Relay.Value.kReverse);
+        
+        inputMethod = environment.getInput();
     }
 
     /* (non-Javadoc)
      * @see com.bellaire.aerbot.systems.RobotSystem#destroy()
      */
     public void destroy() {
-        intake.free();
+    	if(intake instanceof PWM){
+    		PWM motor = (PWM) intake;
+    		motor.free();
+    	}
         intakeLift.free();
+    }
+    
+    /* (non-Javadoc)
+     * @see java.lang.Runnable#run()
+     */
+    public void run(){
+    	intake(inputMethod);
     }
     
 	/**
@@ -46,11 +62,11 @@ public class IntakeSystem implements RobotSystem {
         // Auto intake (w/ toggling)
         //  Toggle on will auto intake.
         //  Toggle off will return to default state.
-        if(env.getInput().intakeToggle()) {
+        if(input.intakeToggle()) {
             this.open();
             intake.set(1);
             isIntakeToggled = true;
-        } else if (isIntakeToggled && !env.getInput().intakeToggle()) { // set to default state
+        } else if (isIntakeToggled && !input.intakeToggle()) { // set to default state
         	if(!catching)
         		this.close();
             intake.set(0);
@@ -59,9 +75,9 @@ public class IntakeSystem implements RobotSystem {
 
         // Manual intake motors
         if(!isIntakeToggled) {
-            if (env.getInput().intake() == -1) {
+            if (input.intake() == -1) {
                 intake.set(-1);
-            } else if (env.getInput().intake() == 1) {
+            } else if (input.intake() == 1) {
                 intake.set(1);
             } else {
                 intake.set(0);
@@ -71,20 +87,20 @@ public class IntakeSystem implements RobotSystem {
         // Catch
         // Interacts with shooter pneumatic
         // (Can be moved into its own subsystem)
-        if(!catchToggle && env.getInput().catchBall()) {
+        if(!catchToggle && input.catchBall()) {
         	catchToggle = true;
         	catching = !catching;
-        	if(intakeLift.get() == Relay.Value.kForward) {
-        		intakeLift.set(Relay.Value.kReverse);
-        		env.getShooterSystem().close();
-        		env.getShooterSystem().setMotor(0);
+        	if(intakeLiftState() == Relay.Value.kForward) {
+        		close();
+        		shooter.close();
+        		shooter.setMotor(0);
         	} else {
-        		intakeLift.set(Relay.Value.kForward);
-        		env.getShooterSystem().open();
-        		env.getShooterSystem().setMotor(-.25);
+        		open();
+        		shooter.open();
+        		shooter.setMotor(-.25);
         	}
         }
-        if(!env.getInput().catchBall()) {
+        if(input.catchBall()) {
             catchToggle = false;
         }
     }
@@ -103,6 +119,10 @@ public class IntakeSystem implements RobotSystem {
         intakeLift.set(Relay.Value.kReverse);
     }
     
+    public Relay.Value intakeLiftState(){
+    	return intakeLift.get();
+    }
+    
     /**
      * set speed of intake motor
      * @param speed value should be between from -1 to 1
@@ -110,4 +130,18 @@ public class IntakeSystem implements RobotSystem {
     public void setMotor(double speed){
     	intake.set(speed);
     }
+
+	/**
+	 * @param intake the intake to set
+	 */
+	protected void setIntake(SpeedController intake) {
+		this.intake = intake;
+	}
+
+	/**
+	 * @param shooter the shooter to set
+	 */
+	protected void setShooter(ShooterSystem shooter) {
+		this.shooter = shooter;
+	}
 }

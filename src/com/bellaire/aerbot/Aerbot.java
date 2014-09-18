@@ -1,44 +1,75 @@
 package com.bellaire.aerbot;
 
 
-import com.bellaire.aerbot.controllers.AutonomousController;
-import com.bellaire.aerbot.controllers.OperatorController;
-
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 public class Aerbot extends IterativeRobot {
     
     private Environment environment;
-    private Executer exec;
-    
-    private AutonomousController autonomous;
-    private OperatorController operator;
+    private Executer executer;
 
+    /* (non-Javadoc)
+     * @see edu.wpi.first.wpilibj.IterativeRobot#robotInit()
+     */
     public void robotInit() {
         this.environment = new Environment(this);
-        this.exec = new Executer(environment);
     }
 
+    /* (non-Javadoc)
+     * @see edu.wpi.first.wpilibj.IterativeRobot#autonomousInit()
+     */
     public void autonomousInit() {
-        exec.onAutonomous();
-        autonomous = new AutonomousController(environment, exec);
+    	executer = new AutonomousExecuter(environment);
     }
     
+    /* (non-Javadoc)
+     * @see edu.wpi.first.wpilibj.IterativeRobot#autonomousPeriodic()
+     */
     public void autonomousPeriodic() {
-        autonomous.update();
+    	executer.execute();
     }
     
+    /* (non-Javadoc)
+     * @see edu.wpi.first.wpilibj.IterativeRobot#teleopInit()
+     */
     public void teleopInit() {
-        exec.onTeleop();
-        operator = new OperatorController(environment, exec);
+    	executer = new TeleopExecuter(environment);
     }
 
+    /* (non-Javadoc)
+     * @see edu.wpi.first.wpilibj.IterativeRobot#teleopPeriodic()
+     */
     public void teleopPeriodic() {
-        operator.update();
+    	executer.execute();
     }
     
+    /* (non-Javadoc)
+     * @see edu.wpi.first.wpilibj.IterativeRobot#testPeriodic()
+     */
     public void testPeriodic() {
     
     }
+
+	/* (non-Javadoc)
+	 * @see edu.wpi.first.wpilibj.IterativeRobot#disabledInit()
+	 */
+	public void disabledInit() {
+
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.wpi.first.wpilibj.IterativeRobot#disabledPeriodic()
+	 */
+	public void disabledPeriodic() {
+
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.wpi.first.wpilibj.RobotBase#free()
+	 */
+	public void free() {
+		environment.destroy();
+		super.free();
+	}
     
 }

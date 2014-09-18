@@ -1,14 +1,8 @@
 package com.bellaire.aerbot.systems;
 
-import com.bellaire.aerbot.Environment;
+import com.bellaire.aerbot.Initializable;
 
-public interface RobotSystem {
-
-	/**
-	 * initialize the system
-     * @param environment environment of system
-     */
-    public void init(Environment environment);
+public interface RobotSystem extends Initializable{
     
     /**
      * destroy object

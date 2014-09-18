@@ -1,11 +1,37 @@
 package com.bellaire.aerbot.custom;
 
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.communication.UsageReporting;
 
 public class RobotDrive3 extends RobotDrive {
 
     /**
+     * Constructor for RobotDrive3 with 4 motors specified as SpeedController objects.
+     * Speed controller input version of RobotDrive (see previous comments).
+     * @param rearLeftMotor The back left SpeedController object used to drive the robot.
+     * @param frontLeftMotor The front left SpeedController object used to drive the robot
+     * @param rearRightMotor The back right SpeedController object used to drive the robot.
+     * @param frontRightMotor The front right SpeedController object used to drive the robot.
+     */
+    public RobotDrive3(SpeedController frontLeftMotor, SpeedController rearLeftMotor,
+            SpeedController frontRightMotor, SpeedController rearRightMotor) throws NullPointerException {
+		super(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
+	}
+
+    /**
+     * Constructor for RobotDrive3 with 2 motors specified as SpeedController objects.
+     * The SpeedController version of the constructor enables programs to use the RobotDrive classes with
+     * subclasses of the SpeedController objects, for example, versions with ramping or reshaping of
+     * the curve to suit motor bias or dead-band elimination.
+     * @param leftMotor The left SpeedController object used to drive the robot.
+     * @param rightMotor the right SpeedController object used to drive the robot.
+     */
+    public RobotDrive3(SpeedController leftMotor, SpeedController rightMotor) throws NullPointerException {
+		super(leftMotor, rightMotor);
+	}
+
+	/**
      * @param leftMotorChannel port number of left motor
      * @param rightMotorChannel port number of right motor
      */
@@ -28,17 +54,7 @@ public class RobotDrive3 extends RobotDrive {
     }
     
     public void arcadeDrive(double moveValue, double rotateValue, boolean squaredInputs) {
-        if(!kArcadeStandard_Reported){
-            UsageReporting.report(UsageReporting.kResourceType_RobotDrive, getNumMotors(), UsageReporting.kRobotDrive_ArcadeStandard);
-            kArcadeStandard_Reported = true;
-        }
-
-        double leftMotorSpeed;
-        double rightMotorSpeed;
-
-        moveValue = limit(moveValue);
-        rotateValue = limit(rotateValue);
-
+    	
         if (squaredInputs) {
             // square the inputs (while preserving the sign) to increase fine control while permitting full power
             if (moveValue >= 0.0) {
@@ -48,28 +64,7 @@ public class RobotDrive3 extends RobotDrive {
             }
         }
         
-        // cube the rotate values
-        rotateValue = (rotateValue * rotateValue * rotateValue);
-
-        if (moveValue > 0.0) {
-            if (rotateValue > 0.0) {
-                leftMotorSpeed = moveValue - rotateValue;
-                rightMotorSpeed = Math.max(moveValue, rotateValue);
-            } else {
-                leftMotorSpeed = Math.max(moveValue, -rotateValue);
-                rightMotorSpeed = moveValue + rotateValue;
-            }
-        } else {
-            if (rotateValue > 0.0) {
-                leftMotorSpeed = -Math.max(-moveValue, rotateValue);
-                rightMotorSpeed = moveValue + rotateValue;
-            } else {
-                leftMotorSpeed = moveValue - rotateValue;
-                rightMotorSpeed = -Math.max(-moveValue, -rotateValue);
-            }
-        }
-
-        setLeftRightMotorOutputs(leftMotorSpeed, rightMotorSpeed);
+    	super.arcadeDrive(moveValue, rotateValue * rotateValue * rotateValue, false);//cubed rotation
     }
     
     

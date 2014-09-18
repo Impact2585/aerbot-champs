@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class WheelSystem implements RobotSystem {
+public class WheelSystem implements RobotSystem, Runnable {
 
 	public static final double SHIFT_DELAY = 0.5;
 	public static double Kp = -.08;
@@ -22,6 +22,8 @@ public class WheelSystem implements RobotSystem {
 
 	private RobotDrive3 wheels;
 
+	private InputMethod inputMethod;
+	
 	private Relay gearbox;
 	private int gear = 0; // off
 	private boolean gearPress = false, dirToggle = false;
@@ -62,8 +64,8 @@ public class WheelSystem implements RobotSystem {
 		// this.motion = e.getMotionTracker();
 
 		gyro = environment.getGyroSystem();
-
 		accelerometer = environment.getAccelerometerSystem();
+		inputMethod = environment.getInput();
 
 		timer = new Timer();
 		timer.start();
@@ -245,7 +247,8 @@ public class WheelSystem implements RobotSystem {
 	 * @see com.bellaire.aerbot.systems.RobotSystem#destroy()
 	 */
 	public void destroy() {
-
+		gearbox.free();
+		wheels.free();
 	}
 	
 	/**
@@ -299,7 +302,7 @@ public class WheelSystem implements RobotSystem {
 			disableStraightDrivePID();
 			correctRotate = 0;
 		}
-		arcadeDrive(moveValue, actualMovementDirection(moveValue) * correctRotate);
+		arcadeDrive(moveValue, correctRotate);
 	}
 
 	/**
@@ -320,6 +323,13 @@ public class WheelSystem implements RobotSystem {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
+	public void run(){
+		move(inputMethod);
+	}
+	
 	/**
 	 * move according to input
 	 * @param input input from driver
@@ -333,35 +343,39 @@ public class WheelSystem implements RobotSystem {
 				&& Math.abs(input.getRightX()) < .15)
 			straightDrive(currentRampY * dir);
 		else{
-			wheels.arcadeDrive(currentRampY * dir, input.getRightX());
+			arcadeDrive(currentRampY * dir, input.getRightX());
 			straightDriving = false;
 		}
 
-		try {
-			SmartDashboard.putBoolean("Low gear: ", gear == 0);
-			SmartDashboard.putBoolean("Switched front: ", dir == -1);
-			SmartDashboard.putBoolean("Automatic shifting: ", automatic);
-			SmartDashboard.putBoolean("Straight driving: ", straightDriving);
-			SmartDashboard.putNumber("Angle: ", gyro.getHeading());
-			SmartDashboard.putNumber("Ramped Movement: ", currentRampY);
-			SmartDashboard.putNumber("Rotation Input: " , input.getRightX());
-			SmartDashboard.putBoolean("Straight driving disabled: ", disableStraightDrive);
-		} catch (NullPointerException ex) {
+		try{
+			try {
+				SmartDashboard.putBoolean("Low gear: ", gear == 0);
+				SmartDashboard.putBoolean("Switched front: ", dir == -1);
+				SmartDashboard.putBoolean("Automatic shifting: ", automatic);
+				SmartDashboard.putBoolean("Straight driving: ", straightDriving);
+				SmartDashboard.putNumber("Angle: ", gyro.getHeading());
+				SmartDashboard.putNumber("Ramped Movement: ", currentRampY);
+				SmartDashboard.putNumber("Rotation Input: " , input.getRightX());
+				SmartDashboard.putBoolean("Straight driving disabled: ", disableStraightDrive);
+			} catch (NullPointerException ex) {
 
-		}
-		try {
-			SmartDashboard.putNumber("AccelerationX: ",
-					accelerometer.getAccelerationX());
-			SmartDashboard.putNumber("AccelerationY: ",
-					accelerometer.getAccelerationY());
-			SmartDashboard.putNumber("AccelerationZ: ",
-					accelerometer.getAccelerationZ());
-		} catch (NullPointerException ex) {
+			}
+			try {
+				SmartDashboard.putNumber("AccelerationX: ",
+						accelerometer.getAccelerationX());
+				SmartDashboard.putNumber("AccelerationY: ",
+						accelerometer.getAccelerationY());
+				SmartDashboard.putNumber("AccelerationZ: ",
+						accelerometer.getAccelerationZ());
+			} catch (NullPointerException ex) {
 
-		}
-		try {
-			SmartDashboard.putNumber("Speed: ", accelerometer.getSpeed());
-		} catch (NullPointerException ex) {
+			}
+			try {
+				SmartDashboard.putNumber("Speed: ", accelerometer.getSpeed());
+			} catch (NullPointerException ex) {
+
+			}
+		}catch (UnsatisfiedLinkError ex){
 
 		}
 

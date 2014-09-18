@@ -1,17 +1,30 @@
-package com.bellaire.aerbot.listeners;
+package com.bellaire.aerbot;
 
-import com.bellaire.aerbot.Environment;
+public class AutonomousExecuter implements Executer {
 
-public class AutonomousListener implements Listener {
-    
 	public static final int WAIT_LENGTH = 0;
 	
     private Environment env;
     private long time = -1;
     private long delay;
     
+	/**
+	 * Doesn't initialize anything
+	 */
+	public AutonomousExecuter(){
+		
+	}
+    
+    /**
+     * Calls init
+	 * @param env environment to initialize with
+	 */
+	public AutonomousExecuter(Environment env) {
+		init(env);
+	}
+
     /* (non-Javadoc)
-     * @see com.bellaire.aerbot.listeners.Listener#init(com.bellaire.aerbot.Environment)
+     * @see com.bellaire.aerbot.Initializable#init(com.bellaire.aerbot.Environment)
      */
     public void init(Environment env) {
         this.env = env;
@@ -19,21 +32,7 @@ public class AutonomousListener implements Listener {
     }
 
     /* (non-Javadoc)
-     * @see com.bellaire.aerbot.listeners.Listener#isComplete()
-     */
-    public boolean isComplete() {
-        return env.isOperatorControl();
-    }
-
-    /* (non-Javadoc)
-     * @see com.bellaire.aerbot.listeners.Listener#shouldExecute()
-     */
-    public boolean shouldExecute() {
-        return env.isAutonomous();
-    }
-
-    /* (non-Javadoc)
-     * @see com.bellaire.aerbot.listeners.Listener#execute()
+     * @see com.bellaire.aerbot.Executer#execute()
      */
     public void execute() {
         long now = System.currentTimeMillis();
@@ -67,5 +66,4 @@ public class AutonomousListener implements Listener {
 			env.getShooterSystem().close();
         }
     }
-    
 }
