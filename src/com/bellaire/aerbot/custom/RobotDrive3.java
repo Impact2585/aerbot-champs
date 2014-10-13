@@ -2,7 +2,6 @@ package com.bellaire.aerbot.custom;
 
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.communication.UsageReporting;
 
 public class RobotDrive3 extends RobotDrive {
 
@@ -49,10 +48,16 @@ public class RobotDrive3 extends RobotDrive {
 		super(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor) ;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.first.wpilibj.RobotDrive#arcadeDrive(double, double)
+	 */
 	public void arcadeDrive(double moveValue, double rotateValue) {
         this.arcadeDrive(moveValue, rotateValue, false);
     }
     
+    /* (non-Javadoc)
+     * @see edu.wpi.first.wpilibj.RobotDrive#arcadeDrive(double, double, boolean)
+     */
     public void arcadeDrive(double moveValue, double rotateValue, boolean squaredInputs) {
     	
         if (squaredInputs) {
