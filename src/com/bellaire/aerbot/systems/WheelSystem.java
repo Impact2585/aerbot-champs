@@ -186,6 +186,20 @@ public class WheelSystem implements RobotSystem, Runnable {
 	}
 
 	/**
+	 * @return the straightDriving
+	 */
+	protected boolean isStraightDriving() {
+		return straightDriving;
+	}
+
+	/**
+	 * @param straightDriving the straightDriving to set
+	 */
+	protected void setStraightDriving(boolean straightDriving) {
+		this.straightDriving = straightDriving;
+	}
+
+	/**
 	 * @return the gear
 	 */
 	public int getGear() {
