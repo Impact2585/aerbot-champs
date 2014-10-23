@@ -4,13 +4,13 @@ import edu.wpi.first.wpilibj.Joystick;
 
 /*
 
-1: A
-2: B
-3: X
-4: Y
-5: Left Bumper
-6: Right Bumper
-7: Back
+1: A - outtake
+2: B - shift
+3: X - intake
+4: Y - shooter pneumatic
+5: Left Bumper - shoot
+6: Right Bumper - shift
+7: Back - straight drive
 8: Start
 9: Left Joystick
 10: Right Joystick
