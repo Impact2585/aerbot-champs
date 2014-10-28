@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class AccelerometerSystem implements RobotSystem {
 
+  public static final double ACCELERATION_DUE_TO_GRAVITY = 9.80665;
+
   private ADXL345_I2C accel;
   private double speed;
   private I2C i2c;
@@ -67,7 +69,7 @@ public class AccelerometerSystem implements RobotSystem {
   public synchronized double getSpeed() {
     if(timer.get() > .75)
       timer.reset();
-    speed += getAccelerationX() * 9.80665 * timer.get();
+    speed += getAccelerationX() * ACCELERATION_DUE_TO_GRAVITY * timer.get();
     if(Math.abs(getAccelerationX()) < 0.15 && Math.abs(speed) < 0.5)
 	  speed = 0;//reset value if relatively no acceleration and no speed
     timer.reset();
