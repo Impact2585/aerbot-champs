@@ -57,7 +57,7 @@ public class Environment {
         this.intake = new IntakeSystem();
         this.intake.init(this);
         
-        this.compressor = new Compressor(1, 1);
+        this.compressor = new Compressor(2, 1);
         this.compressor.start();
     }
     
