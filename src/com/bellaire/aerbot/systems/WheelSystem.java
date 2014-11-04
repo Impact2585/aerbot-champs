@@ -221,6 +221,20 @@ public class WheelSystem implements RobotSystem, Runnable {
 	}
 
 	/**
+	 * @return the currentRampY
+	 */
+	protected double getCurrentRampY() {
+		return currentRampY;
+	}
+
+	/**
+	 * @param currentRampY the currentRampY to set
+	 */
+	protected void setCurrentRampY(double currentRampY) {
+		this.currentRampY = currentRampY;
+	}
+
+	/**
 	 * @param currentLeftY the currentLeftY to set
 	 */
 	protected void setCurrentLeftY(double currentLeftY) {
@@ -361,37 +375,7 @@ public class WheelSystem implements RobotSystem, Runnable {
 			straightDriving = false;
 		}
 
-		try{
-			try {
-				SmartDashboard.putBoolean("Low gear: ", gear == 0);
-				SmartDashboard.putBoolean("Switched front: ", dir == -1);
-				SmartDashboard.putBoolean("Automatic shifting: ", automatic);
-				SmartDashboard.putBoolean("Straight driving: ", straightDriving);
-				SmartDashboard.putNumber("Angle: ", gyro.getHeading());
-				SmartDashboard.putNumber("Ramped Movement: ", currentRampY);
-				SmartDashboard.putNumber("Rotation Input: " , input.getRightX());
-				SmartDashboard.putBoolean("Straight driving disabled: ", disableStraightDrive);
-			} catch (NullPointerException ex) {
-
-			}
-			try {
-				SmartDashboard.putNumber("AccelerationX: ",
-						accelerometer.getAccelerationX());
-				SmartDashboard.putNumber("AccelerationY: ",
-						accelerometer.getAccelerationY());
-				SmartDashboard.putNumber("AccelerationZ: ",
-						accelerometer.getAccelerationZ());
-			} catch (NullPointerException ex) {
-
-			}
-			try {
-				SmartDashboard.putNumber("Speed: ", accelerometer.getSpeed());
-			} catch (NullPointerException ex) {
-
-			}
-		}catch (UnsatisfiedLinkError ex){
-
-		}
+		updateSmartDashboard(input);
 
 		boolean shift = input.shift();
 		if (!shift) {
@@ -426,6 +410,39 @@ public class WheelSystem implements RobotSystem, Runnable {
 		if (!disableStraightDrivePressed && input.straightDrive())
 			disableStraightDrive = !disableStraightDrive;
 		disableStraightDrivePressed = input.straightDrive();
+	}
+
+	/**
+	 * @param input
+	 */
+	public void updateSmartDashboard(InputMethod input) {
+		try {
+			SmartDashboard.putBoolean("Low gear: ", gear == 0);
+			SmartDashboard.putBoolean("Switched front: ", dir == -1);
+			SmartDashboard.putBoolean("Automatic shifting: ", automatic);
+			SmartDashboard.putBoolean("Straight driving: ", straightDriving);
+			SmartDashboard.putNumber("Angle: ", gyro.getHeading());
+			SmartDashboard.putNumber("Ramped Movement: ", currentRampY);
+			SmartDashboard.putNumber("Rotation Input: " , input.getRightX());
+			SmartDashboard.putBoolean("Straight driving disabled: ", disableStraightDrive);
+		} catch (NullPointerException ex) {
+
+		}
+		try {
+			SmartDashboard.putNumber("AccelerationX: ",
+					accelerometer.getAccelerationX());
+			SmartDashboard.putNumber("AccelerationY: ",
+					accelerometer.getAccelerationY());
+			SmartDashboard.putNumber("AccelerationZ: ",
+					accelerometer.getAccelerationZ());
+		} catch (NullPointerException ex) {
+
+		}
+		try {
+			SmartDashboard.putNumber("Speed: ", accelerometer.getSpeed());
+		} catch (NullPointerException ex) {
+
+		}
 	}
 
 }
