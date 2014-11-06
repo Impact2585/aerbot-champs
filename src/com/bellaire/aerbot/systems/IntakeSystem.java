@@ -23,7 +23,7 @@ public class IntakeSystem implements RobotSystem, Runnable {
      */
     public void init(Environment environment) {
         shooter = environment.getShooterSystem();
-        intake = new Jaguar(7);
+        intake = new Jaguar(6);
         intakeLift = new Relay(5);
         
         intakeLift.set(Relay.Value.kReverse);

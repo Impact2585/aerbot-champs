@@ -44,10 +44,17 @@ public class Aerbot extends IterativeRobot {
     }
     
     /* (non-Javadoc)
+	 * @see edu.wpi.first.wpilibj.IterativeRobot#testInit()
+	 */
+	public void testInit() {
+		executer = new TestExecuter(environment);
+	}
+
+	/* (non-Javadoc)
      * @see edu.wpi.first.wpilibj.IterativeRobot#testPeriodic()
      */
     public void testPeriodic() {
-    
+    	executer.execute();
     }
 
 	/* (non-Javadoc)
