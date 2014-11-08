@@ -15,6 +15,7 @@ public class IntakeSystem implements RobotSystem, Runnable {
     
     private SpeedController intake;
     private Relay intakeLift;
+    private Relay intakeLift2;
     
     private boolean isIntakeToggled = false, catchToggle = false, catching;
     
@@ -25,6 +26,7 @@ public class IntakeSystem implements RobotSystem, Runnable {
         shooter = environment.getShooterSystem();
         intake = new Jaguar(7);
         intakeLift = new Relay(5);
+        intakeLift2 = new Relay(6);
         
         intakeLift.set(Relay.Value.kReverse);
         
@@ -40,6 +42,7 @@ public class IntakeSystem implements RobotSystem, Runnable {
     		motor.free();
     	}
         intakeLift.free();
+        intakeLift2.free();
     }
     
     /* (non-Javadoc)
@@ -110,6 +113,7 @@ public class IntakeSystem implements RobotSystem, Runnable {
      */
     public void open() {
         intakeLift.set(Relay.Value.kForward);
+        intakeLift2.set(Relay.Value.kForward);
     }
     
     /**
@@ -117,6 +121,7 @@ public class IntakeSystem implements RobotSystem, Runnable {
      */
     public void close() {
         intakeLift.set(Relay.Value.kReverse);
+        intakeLift2.set(Relay.Value.kReverse);
     }
     
     public Relay.Value intakeLiftState(){

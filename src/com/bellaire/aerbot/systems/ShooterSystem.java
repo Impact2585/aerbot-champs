@@ -13,6 +13,7 @@ public class ShooterSystem implements RobotSystem, Runnable{
 	private InputMethod inputMethod;
     private SpeedController shooter;
     private Relay lift;
+    private Relay lift2;
     
     // v2 code
     private boolean shooting = false;
@@ -29,8 +30,10 @@ public class ShooterSystem implements RobotSystem, Runnable{
         shooter = new Victor(4);
         shooter.set(0);
         lift = new Relay(8);
+        lift2 = new Relay(7);
         
         lift.set(Relay.Value.kOff);
+        lift2.set(Relay.Value.kOff);
     }
     
     /**
@@ -38,6 +41,7 @@ public class ShooterSystem implements RobotSystem, Runnable{
      */
     public void open() {
         lift.set(Relay.Value.kForward);
+        lift2.set(Relay.Value.kForward);
     }
     
     /**
@@ -45,6 +49,7 @@ public class ShooterSystem implements RobotSystem, Runnable{
      */
     public void close() {
         lift.set(Relay.Value.kOff);
+        lift2.set(Relay.Value.kOff);
     }
     
     /**
@@ -64,6 +69,7 @@ public class ShooterSystem implements RobotSystem, Runnable{
         	motor.free();
         }
         lift.free();
+        lift2.free();
     }
     
     /* (non-Javadoc)
