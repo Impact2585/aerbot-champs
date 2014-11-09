@@ -56,7 +56,7 @@ public class WheelSystem implements RobotSystem, Runnable {
 	 * @see com.bellaire.aerbot.systems.RobotSystem#init(com.bellaire.aerbot.Environment)
 	 */
 	public void init(Environment environment) {
-		wheels = new RobotDrive3(1, 2);
+		wheels = new RobotDrive3(1, 10);
 
 		gearbox = new Relay(3);
                 gearbox2 = new Relay(4);

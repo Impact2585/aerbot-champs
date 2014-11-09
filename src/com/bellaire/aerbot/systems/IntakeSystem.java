@@ -24,7 +24,7 @@ public class IntakeSystem implements RobotSystem, Runnable {
      */
     public void init(Environment environment) {
         shooter = environment.getShooterSystem();
-        intake = new Jaguar(7);
+        intake = new Jaguar(2);
         intakeLift = new Relay(5);
         intakeLift2 = new Relay(6);
         
@@ -112,16 +112,16 @@ public class IntakeSystem implements RobotSystem, Runnable {
      * intake forward
      */
     public void open() {
-        intakeLift.set(Relay.Value.kForward);
-        intakeLift2.set(Relay.Value.kForward);
+        intakeLift.set(Relay.Value.kReverse);
+        intakeLift2.set(Relay.Value.kReverse);
     }
     
     /**
      * intake pneumatic goes back
      */
     public void close() {
-        intakeLift.set(Relay.Value.kReverse);
-        intakeLift2.set(Relay.Value.kReverse);
+        intakeLift.set(Relay.Value.kOff);
+        intakeLift2.set(Relay.Value.kOff);
     }
     
     public Relay.Value intakeLiftState(){
