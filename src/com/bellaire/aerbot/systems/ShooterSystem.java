@@ -14,8 +14,6 @@ public class ShooterSystem implements RobotSystem, Runnable{
     private SpeedController shooter;
     private Relay lift;
     private Relay lift2;
-    
-    // v2 code
     private boolean shooting = false;
     private long shootStart = 0, lastPress = 0, current;
     private boolean shotPress;
@@ -41,7 +39,7 @@ public class ShooterSystem implements RobotSystem, Runnable{
      */
     public void open() {
         lift.set(Relay.Value.kForward);
-        lift2.set(Relay.Value.kForward);
+        lift2.set(Relay.Value.kOff);
     }
     
     /**
@@ -49,7 +47,7 @@ public class ShooterSystem implements RobotSystem, Runnable{
      */
     public void close() {
         lift.set(Relay.Value.kOff);
-        lift2.set(Relay.Value.kOff);
+        lift2.set(Relay.Value.kForward);
     }
     
     /**
@@ -105,9 +103,9 @@ public class ShooterSystem implements RobotSystem, Runnable{
         }
         
         if(shooting) {
-            if(current - shootStart >= 4000 && current - shootStart < 4500) {
+            if(current - shootStart >= 4000 && current - shootStart < 5000) {
                 open();
-            } else if(current - shootStart >= 4500) {
+            } else if(current - shootStart >= 5000) {
                 close();
                 shooter.set(0);
                 
