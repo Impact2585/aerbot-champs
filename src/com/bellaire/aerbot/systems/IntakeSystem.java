@@ -4,8 +4,8 @@ import com.bellaire.aerbot.Environment;
 import com.bellaire.aerbot.input.InputMethod;
 
 import edu.wpi.first.wpilibj.Jaguar;
-import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class IntakeSystem implements RobotSystem, Runnable {
@@ -37,8 +37,8 @@ public class IntakeSystem implements RobotSystem, Runnable {
      * @see com.bellaire.aerbot.systems.RobotSystem#destroy()
      */
     public void destroy() {
-    	if(intake instanceof PWM){
-    		PWM motor = (PWM) intake;
+    	if(intake instanceof SensorBase){
+    		SensorBase motor = (SensorBase) intake;
     		motor.free();
     	}
         intakeLift.free();
@@ -137,9 +137,9 @@ public class IntakeSystem implements RobotSystem, Runnable {
     }
 
 	/**
-	 * @param intake the intake to set
+	 * @param intake the motor to set
 	 */
-	protected void setIntake(SpeedController intake) {
+	protected void setSpeedController(SpeedController intake) {
 		this.intake = intake;
 	}
 
