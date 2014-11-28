@@ -272,7 +272,7 @@ public class WheelSystem implements RobotSystem, Runnable {
 	public void gearsReverse() {
 		gear = 1;
 		gearbox.set(Relay.Value.kReverse);
-                gearbox2.set(Relay.Value.kReverse);
+		gearbox2.set(Relay.Value.kReverse);
 	}
 
 	/* (non-Javadoc)
@@ -280,7 +280,7 @@ public class WheelSystem implements RobotSystem, Runnable {
 	 */
 	public void destroy() {
 		gearbox.free();
-                gearbox2.free();
+		gearbox2.free();
 		wheels.free();
 	}
 	

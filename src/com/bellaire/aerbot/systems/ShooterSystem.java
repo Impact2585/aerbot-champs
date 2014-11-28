@@ -3,15 +3,16 @@ package com.bellaire.aerbot.systems;
 import com.bellaire.aerbot.Environment;
 import com.bellaire.aerbot.input.InputMethod;
 
-import edu.wpi.first.wpilibj.PWM;
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Victor;
 
 public class ShooterSystem implements RobotSystem, Runnable{
 
-	private InputMethod inputMethod;
+    private InputMethod inputMethod;
     private SpeedController shooter;
+    private SpeedController shooter2;
     private Relay lift;
     private Relay lift2;
     private boolean shooting = false;
@@ -26,7 +27,9 @@ public class ShooterSystem implements RobotSystem, Runnable{
     	inputMethod = env.getInput();
     	
         shooter = new Victor(4);
+        shooter2 = new Victor(5);
         shooter.set(0);
+        shooter2.set(0);
         lift = new Relay(8);
         lift2 = new Relay(7);
         
@@ -56,14 +59,19 @@ public class ShooterSystem implements RobotSystem, Runnable{
      */
     public void setMotor(double speed){
     	shooter.set(speed);
+        shooter2.set(speed);
     }
     
     /* (non-Javadoc)
      * @see com.bellaire.aerbot.systems.RobotSystem#destroy()
      */
     public void destroy() {
-        if(shooter instanceof PWM){
-        	PWM motor = (PWM) shooter;
+        if(shooter instanceof SensorBase){
+        	SensorBase motor = (SensorBase) shooter;
+        	motor.free();
+        }
+        if(shooter2 instanceof SensorBase){
+        	SensorBase motor = (SensorBase) shooter2;
         	motor.free();
         }
         lift.free();
@@ -88,13 +96,13 @@ public class ShooterSystem implements RobotSystem, Runnable{
             lastPress = current;
             if(shooting == false) {
                 close();
-                shooter.set(1);
+                setMotor(1);
 
                 shooting = true;
                 shootStart = current;
             } else {
                 if(current - shootStart < 2000) {
-                    shooter.set(0);
+                    setMotor(0);
                     
                     shooting = false;
                     shootStart = 0;
@@ -107,7 +115,7 @@ public class ShooterSystem implements RobotSystem, Runnable{
                 open();
             } else if(current - shootStart >= 5000) {
                 close();
-                shooter.set(0);
+                setMotor(0);
                 
                 shooting = false;
                 shootStart = 0;
@@ -115,10 +123,10 @@ public class ShooterSystem implements RobotSystem, Runnable{
         }else if(!shotPress && input.shooterLift()){
         	if(manualShooting){
         		close();
-        		shooter.set(0);
+        		setMotor(0);
         	}else{
         		open();
-        		shooter.set(1);
+        		setMotor(1);
         	}
         	manualShooting = !manualShooting;
         }
@@ -170,16 +178,16 @@ public class ShooterSystem implements RobotSystem, Runnable{
 	}
 
 	/**
-	 * @return the shooter
+	 * @return the motor
 	 */
-	protected SpeedController getShooter() {
+	protected SpeedController getSpeedController() {
 		return shooter;
 	}
 
 	/**
-	 * @param shooter the shooter to set
+	 * @param shooter the motor to set
 	 */
-	protected void setShooter(SpeedController shooter) {
+	protected void setSpeedController(SpeedController shooter) {
 		this.shooter = shooter;
 	}
 
