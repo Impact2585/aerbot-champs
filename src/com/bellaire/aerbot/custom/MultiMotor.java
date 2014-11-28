@@ -74,4 +74,16 @@ public class MultiMotor extends SensorBase implements SpeedController {
 			motors[i].set(speed, syncGroup);
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.first.wpilibj.SensorBase#free()
+	 */
+	public void free() {
+		for(int i = 0; i < motors.length; i++){
+			if(motors[i] instanceof SensorBase){
+				SensorBase motor = (SensorBase) motors[i];
+				motor.free();
+			}
+		}
+	}
+
 }
