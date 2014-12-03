@@ -25,7 +25,7 @@ public class WheelSystem implements RobotSystem, Runnable {
 	private InputMethod inputMethod;
 	
 	private Relay gearbox;
-        private Relay gearbox2;
+	private Relay gearbox2;
 	private int gear = 0; // off
 	private boolean gearPress = false, dirToggle = false;
 	private int dir = 1;
@@ -59,7 +59,7 @@ public class WheelSystem implements RobotSystem, Runnable {
 		wheels = new RobotDrive3(1, 10);
 
 		gearbox = new Relay(3);
-                gearbox2 = new Relay(4);
+		gearbox2 = new Relay(4);
 		this.gearsOff();
 
 		wheels.setSafetyEnabled(false);

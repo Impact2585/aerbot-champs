@@ -1,6 +1,7 @@
 package com.bellaire.aerbot.systems;
 
 import com.bellaire.aerbot.Environment;
+import com.bellaire.aerbot.custom.MultiMotor;
 import com.bellaire.aerbot.input.InputMethod;
 
 import edu.wpi.first.wpilibj.Relay;
@@ -12,7 +13,6 @@ public class ShooterSystem implements RobotSystem, Runnable{
 
     private InputMethod inputMethod;
     private SpeedController shooter;
-    private SpeedController shooter2;
     private Relay lift;
     private Relay lift2;
     private boolean shooting = false;
@@ -26,10 +26,8 @@ public class ShooterSystem implements RobotSystem, Runnable{
     public void init(Environment env) {
     	inputMethod = env.getInput();
     	
-        shooter = new Victor(4);
-        shooter2 = new Victor(5);
+    	shooter = new MultiMotor(new SpeedController[]{new Victor(4),new Victor(5)});
         shooter.set(0);
-        shooter2.set(0);
         lift = new Relay(8);
         lift2 = new Relay(7);
         
@@ -59,7 +57,6 @@ public class ShooterSystem implements RobotSystem, Runnable{
      */
     public void setMotor(double speed){
     	shooter.set(speed);
-        shooter2.set(speed);
     }
     
     /* (non-Javadoc)
@@ -68,10 +65,6 @@ public class ShooterSystem implements RobotSystem, Runnable{
     public void destroy() {
         if(shooter instanceof SensorBase){
         	SensorBase motor = (SensorBase) shooter;
-        	motor.free();
-        }
-        if(shooter2 instanceof SensorBase){
-        	SensorBase motor = (SensorBase) shooter2;
         	motor.free();
         }
         lift.free();
