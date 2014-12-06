@@ -1,12 +1,12 @@
-package com.bellaire.aerbot;
+package org._2585robophiles.aerbot;
 
-import com.bellaire.aerbot.input.InputMethod;
-import com.bellaire.aerbot.input.PartnerXboxInput;
-import com.bellaire.aerbot.systems.AccelerometerSystem;
-import com.bellaire.aerbot.systems.GyroSystem;
-import com.bellaire.aerbot.systems.IntakeSystem;
-import com.bellaire.aerbot.systems.ShooterSystem;
-import com.bellaire.aerbot.systems.WheelSystem;
+import org._2585robophiles.aerbot.input.InputMethod;
+import org._2585robophiles.aerbot.input.PartnerXboxInput;
+import org._2585robophiles.aerbot.systems.AccelerometerSystem;
+import org._2585robophiles.aerbot.systems.GyroSystem;
+import org._2585robophiles.aerbot.systems.IntakeSystem;
+import org._2585robophiles.aerbot.systems.ShooterSystem;
+import org._2585robophiles.aerbot.systems.WheelSystem;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.RobotBase;

@@ -1,4 +1,4 @@
-package com.bellaire.aerbot.input;
+package org._2585robophiles.aerbot.input;
 
 public interface InputMethod {
     

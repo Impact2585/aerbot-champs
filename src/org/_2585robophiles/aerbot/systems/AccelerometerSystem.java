@@ -1,6 +1,6 @@
-package com.bellaire.aerbot.systems;
+package org._2585robophiles.aerbot.systems;
 
-import com.bellaire.aerbot.Environment;
+import org._2585robophiles.aerbot.Environment;
 
 import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.DigitalModule;
@@ -17,7 +17,7 @@ public class AccelerometerSystem implements RobotSystem {
   private Timer timer;
 
   /* (non-Javadoc)
-   * @see com.bellaire.aerbot.systems.RobotSystem#init(com.bellaire.aerbot.Environment)
+   * @see org._2585robophiles.aerbot.systems.RobotSystem#init(org._2585robophiles.aerbot.Environment)
    */
   public void init(Environment environment) {
     accel = new ADXL345_I2C(1, ADXL345_I2C.DataFormat_Range.k4G);
@@ -77,7 +77,7 @@ public class AccelerometerSystem implements RobotSystem {
   }
 
   /* (non-Javadoc)
-   * @see com.bellaire.aerbot.systems.RobotSystem#destroy()
+   * @see org._2585robophiles.aerbot.systems.RobotSystem#destroy()
    */
   public void destroy() {
     accel.free();

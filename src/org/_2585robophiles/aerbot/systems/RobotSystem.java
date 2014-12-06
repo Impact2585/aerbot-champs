@@ -1,6 +1,6 @@
-package com.bellaire.aerbot.systems;
+package org._2585robophiles.aerbot.systems;
 
-import com.bellaire.aerbot.Initializable;
+import org._2585robophiles.aerbot.Initializable;
 
 public interface RobotSystem extends Initializable{
     

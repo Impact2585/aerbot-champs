@@ -1,8 +1,8 @@
-package com.bellaire.aerbot.systems;
+package org._2585robophiles.aerbot.systems;
 
-import com.bellaire.aerbot.Environment;
-import com.bellaire.aerbot.custom.RobotDrive3;
-import com.bellaire.aerbot.input.InputMethod;
+import org._2585robophiles.aerbot.Environment;
+import org._2585robophiles.aerbot.custom.RobotDrive3;
+import org._2585robophiles.aerbot.input.InputMethod;
 
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Timer;
@@ -53,7 +53,7 @@ public class WheelSystem implements RobotSystem, Runnable {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.bellaire.aerbot.systems.RobotSystem#init(com.bellaire.aerbot.Environment)
+	 * @see org._2585robophiles.aerbot.systems.RobotSystem#init(org._2585robophiles.aerbot.Environment)
 	 */
 	public void init(Environment environment) {
 		wheels = new RobotDrive3(1, 10);
@@ -276,7 +276,7 @@ public class WheelSystem implements RobotSystem, Runnable {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.bellaire.aerbot.systems.RobotSystem#destroy()
+	 * @see org._2585robophiles.aerbot.systems.RobotSystem#destroy()
 	 */
 	public void destroy() {
 		gearbox.free();

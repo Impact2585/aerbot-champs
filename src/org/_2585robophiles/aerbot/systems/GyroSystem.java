@@ -1,6 +1,6 @@
-package com.bellaire.aerbot.systems;
+package org._2585robophiles.aerbot.systems;
 
-import com.bellaire.aerbot.Environment;
+import org._2585robophiles.aerbot.Environment;
 
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Timer;
@@ -13,7 +13,7 @@ public class GyroSystem implements RobotSystem {
   private double error;
 
   /* (non-Javadoc)
-   * @see com.bellaire.aerbot.systems.RobotSystem#init(com.bellaire.aerbot.Environment)
+   * @see org._2585robophiles.aerbot.systems.RobotSystem#init(org._2585robophiles.aerbot.Environment)
    */
   public void init(Environment e) {
     gyro = new Gyro(2);
@@ -62,7 +62,7 @@ public class GyroSystem implements RobotSystem {
   }
 
   /* (non-Javadoc)
-   * @see com.bellaire.aerbot.systems.RobotSystem#destroy()
+   * @see org._2585robophiles.aerbot.systems.RobotSystem#destroy()
    */
   public void destroy() {
     gyro.free();

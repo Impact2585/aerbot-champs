@@ -1,4 +1,4 @@
-package com.bellaire.aerbot;
+package org._2585robophiles.aerbot;
 
 public class AutonomousExecuter implements Executer {
 
@@ -24,7 +24,7 @@ public class AutonomousExecuter implements Executer {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.bellaire.aerbot.Initializable#init(com.bellaire.aerbot.Environment)
+	 * @see org._2585robophiles.aerbot.Initializable#init(org._2585robophiles.aerbot.Environment)
 	 */
 	public void init(Environment env) {
 		this.env = env;
@@ -32,7 +32,7 @@ public class AutonomousExecuter implements Executer {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.bellaire.aerbot.Executer#execute()
+	 * @see org._2585robophiles.aerbot.Executer#execute()
 	 */
 	public void execute() {
 		long now = System.currentTimeMillis();
