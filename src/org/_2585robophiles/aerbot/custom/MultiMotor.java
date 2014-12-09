@@ -1,7 +1,5 @@
 package org._2585robophiles.aerbot.custom;
 
-import java.util.List;
-
 import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.SpeedController;
 
@@ -19,24 +17,6 @@ public class MultiMotor extends SensorBase implements SpeedController {
 		if (motors.length < 1)
 			throw new IllegalArgumentException("Empty array");
 		this.motors = motors;
-	}
-
-	/**
-	 * @param motorList
-	 *            list of SpeedControllers
-	 * @throws ClassCastException
-	 *             if the list is not a list of SpeedControllers
-	 * @throws IllegalArgumentException
-	 *             if list is empty
-	 */
-	public MultiMotor(List motorList) throws ClassCastException,
-			IllegalArgumentException { // no generics in Java ME
-		if (motorList.isEmpty())
-			throw new IllegalArgumentException("Empty list");
-		motors = new SpeedController[motorList.size()];
-		for (int i = 0; i < motorList.size(); i++) {
-			motors[i] = (SpeedController) motorList.get(i);
-		}
 	}
 
 	/*
