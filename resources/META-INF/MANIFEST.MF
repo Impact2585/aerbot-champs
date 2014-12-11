@@ -1,6 +1,6 @@
 MIDlet-Name: aerbot
 MIDlet-Version: 1.0.0
 MIDlet-Vendor: FIRST
-MIDlet-1: Aerbot, , com.bellaire.aerbot.Aerbot
+MIDlet-1: Aerbot, , org._2585robophiles.aerbot.Aerbot
 MicroEdition-Profile: IMP-1.0
 MicroEdition-Configuration: CLDC-1.1
