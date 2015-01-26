@@ -125,5 +125,9 @@ public class PartnerXboxInput implements InputMethod {
 	public boolean straightDrive() {
 		return driver.getRawButton(XboxInput.BACK_BUTTON);// driver's back button
 	}
+
+	public Joystick[] joysticks() {
+		return new Joystick[]{driver, shooter};
+	}
     
 }

@@ -140,4 +140,8 @@ public class XboxInput implements InputMethod {
 	public boolean straightDrive() {
 		return false;
 	}
+
+	public Joystick[] joysticks() {
+		return new Joystick[]{controller};
+	}
 }

@@ -1,5 +1,7 @@
 package org._2585robophiles.aerbot.input;
 
+import edu.wpi.first.wpilibj.Joystick;
+
 public interface InputMethod {
     
     // drive 
@@ -70,5 +72,10 @@ public interface InputMethod {
      * @return if enable/disable straight driving button is pressed
      */
     public boolean straightDrive();
+    
+    /**
+     * @return the joystick(s) being used for input
+     */
+    public Joystick[] joysticks();
     
 }
