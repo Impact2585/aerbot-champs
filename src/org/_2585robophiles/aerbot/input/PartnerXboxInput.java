@@ -126,6 +126,9 @@ public class PartnerXboxInput implements InputMethod {
 		return driver.getRawButton(XboxInput.BACK_BUTTON);// driver's back button
 	}
 
+	/* (non-Javadoc)
+	 * @see org._2585robophiles.aerbot.input.InputMethod#joysticks()
+	 */
 	public Joystick[] joysticks() {
 		return new Joystick[]{driver, shooter};
 	}

@@ -48,7 +48,7 @@ public class XboxInput implements InputMethod {
      * @see org._2585robophiles.aerbot.input.InputMethod#intakeLift()
      */
     public boolean intakeLift() {
-        return false;
+        return controller.getRawButton(BACK_BUTTON);
     }
     
     /* (non-Javadoc)
@@ -83,7 +83,7 @@ public class XboxInput implements InputMethod {
      * @see org._2585robophiles.aerbot.input.InputMethod#shift()
      */
     public boolean shift() {
-        return controller.getRawButton(B_BUTTON);
+        return controller.getRawButton(LEFT_JOYSTICK_BUTTON);
     }
     
     /* (non-Javadoc)
@@ -104,7 +104,7 @@ public class XboxInput implements InputMethod {
      * @see org._2585robophiles.aerbot.input.InputMethod#shooterLift()
      */
     public boolean shooterLift() {
-        return controller.getRawButton(Y_BUTTON);
+        return controller.getRawButton(B_BUTTON);
     }
     
     /* (non-Javadoc)
@@ -118,7 +118,7 @@ public class XboxInput implements InputMethod {
      * @see org._2585robophiles.aerbot.input.InputMethod#directionToggle()
      */
     public boolean directionToggle() {
-        return false;
+        return controller.getRawButton(Y_BUTTON);
     }
     
     /* (non-Javadoc)
@@ -138,9 +138,12 @@ public class XboxInput implements InputMethod {
 	 * @see org._2585robophiles.aerbot.input.InputMethod#straightDrive()
 	 */
 	public boolean straightDrive() {
-		return false;
+		return controller.getRawButton(RIGHT_JOYSTICK_BUTTON);
 	}
 
+	/* (non-Javadoc)
+	 * @see org._2585robophiles.aerbot.input.InputMethod#joysticks()
+	 */
 	public Joystick[] joysticks() {
 		return new Joystick[]{controller};
 	}
