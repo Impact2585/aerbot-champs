@@ -1,7 +1,7 @@
 package org._2585robophiles.aerbot;
 
 import org._2585robophiles.aerbot.input.InputMethod;
-import org._2585robophiles.aerbot.input.PartnerXboxInput;
+import org._2585robophiles.aerbot.input.XboxInput;
 import org._2585robophiles.aerbot.systems.AccelerometerSystem;
 import org._2585robophiles.aerbot.systems.GyroSystem;
 import org._2585robophiles.aerbot.systems.IntakeSystem;
@@ -40,7 +40,7 @@ public class Environment {
     public Environment(RobotBase robot) {
         this.robot = robot;
         
-        this.input = new PartnerXboxInput();
+        this.input = new XboxInput();
         
         this.accel = new AccelerometerSystem();
         this.accel.init(this);
