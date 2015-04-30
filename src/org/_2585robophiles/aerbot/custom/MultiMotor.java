@@ -12,8 +12,10 @@ public class MultiMotor extends SensorBase implements SpeedController {
 	 *            SpeedController array
 	 * @throws IllegalArgumentException
 	 *             if array is empty
+	 * @throws NullPointerException
+	 *             if array is null
 	 */
-	public MultiMotor(SpeedController[] motors) throws IllegalArgumentException {
+	public MultiMotor(SpeedController[] motors) throws IllegalArgumentException, NullPointerException {
 		if (motors.length < 1)
 			throw new IllegalArgumentException("Empty array");
 		this.motors = motors;
