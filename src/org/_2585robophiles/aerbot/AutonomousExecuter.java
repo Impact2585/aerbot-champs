@@ -45,7 +45,7 @@ public class AutonomousExecuter implements Executer {
 
 		if(now - time < 2500 && time != -1) {
 			// move forward (intake forward) for 2.5 seconds
-			env.getWheelSystem().arcadeDrive(1, 0.3);
+			env.getWheelSystem().arcadeDrive(1, 0);
 			if(now - time > 250 && time != -1)
 				env.getWheelSystem().gearsReverse();// shift into high gear
 		} else if(now - time < 5500 && time != -1) {

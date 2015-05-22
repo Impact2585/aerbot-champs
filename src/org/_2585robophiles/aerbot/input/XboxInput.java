@@ -83,52 +83,52 @@ public class XboxInput implements InputMethod {
      * @see org._2585robophiles.aerbot.input.InputMethod#shift()
      */
     public boolean shift() {
-        return controller.getRawButton(LEFT_JOYSTICK_BUTTON);
+        return controller.getRawButton(B_BUTTON);
     }
     
     /* (non-Javadoc)
      * @see org._2585robophiles.aerbot.input.InputMethod#catchBall()
      */
     public boolean catchBall() {
-        return controller.getRawButton(START_BUTTON);//catch ball is start button
+        return controller.getRawButton(Y_BUTTON);//catch ball is start button
     }
     
     /* (non-Javadoc)
      * @see org._2585robophiles.aerbot.input.InputMethod#shoot()
      */
     public boolean shoot() {
-        return controller.getRawButton(A_BUTTON);
+        return controller.getRawButton(LEFT_BUMPER);
     }
     
     /* (non-Javadoc)
      * @see org._2585robophiles.aerbot.input.InputMethod#shooterLift()
      */
     public boolean shooterLift() {
-        return controller.getRawButton(B_BUTTON);
+        return controller.getRawButton(LEFT_JOYSTICK_BUTTON);
     }
     
     /* (non-Javadoc)
      * @see org._2585robophiles.aerbot.input.InputMethod#intakeToggle()
      */
     public boolean intakeToggle() {
-        return controller.getRawButton(X_BUTTON);
+        return controller.getRawButton(RIGHT_BUMPER);
     }
     
     /* (non-Javadoc)
      * @see org._2585robophiles.aerbot.input.InputMethod#directionToggle()
      */
     public boolean directionToggle() {
-        return controller.getRawButton(Y_BUTTON);
+        return controller.getRawButton(BACK_BUTTON);
     }
     
     /* (non-Javadoc)
      * @see org._2585robophiles.aerbot.input.InputMethod#intake()
      */
     public int intake() {
-        if(controller.getRawButton(LEFT_BUMPER)) {
+        if(controller.getRawButton(A_BUTTON)) {
+            return -1;
+        } else if(controller.getRawButton(X_BUTTON)) {
             return 1;
-        } else if(controller.getRawButton(RIGHT_BUMPER)) {
-            return 2;
         } else {
             return 0;
         }

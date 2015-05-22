@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class RobotDrive3 extends RobotDrive {
+	
+	public static final double ROTATION_CORRECTION = 0.3;
 
     /**
      * Constructor for RobotDrive3 with 4 motors specified as SpeedController objects.
@@ -69,7 +71,12 @@ public class RobotDrive3 extends RobotDrive {
             }
         }
         
-    	super.arcadeDrive(moveValue, rotateValue * rotateValue * rotateValue, false);//cubed rotation
+        rotateValue *= rotateValue * rotateValue;//cubed rotation
+        rotateValue -= ROTATION_CORRECTION * moveValue;// ghetto straight driving
+        if(Math.abs(rotateValue) > 1)
+        	rotateValue = Math.signum(rotateValue);
+        
+    	super.arcadeDrive(moveValue, rotateValue, false);
     }
     
     
