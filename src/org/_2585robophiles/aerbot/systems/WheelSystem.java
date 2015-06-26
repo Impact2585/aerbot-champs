@@ -25,7 +25,6 @@ public class WheelSystem implements RobotSystem, Runnable {
 	private InputMethod inputMethod;
 	
 	private Relay gearbox;
-	private Relay gearbox2;
 	private int gear = 0; // off
 	private boolean gearPress = false, dirToggle = false;
 	private int dir = 1;
@@ -58,8 +57,7 @@ public class WheelSystem implements RobotSystem, Runnable {
 	public void init(Environment environment) {
 		wheels = new RobotDrive3(1, 10);
 
-		gearbox = new Relay(3);
-		gearbox2 = new Relay(4);
+		gearbox = new Relay(2);
 		this.gearsOff();
 
 		wheels.setSafetyEnabled(false);
@@ -263,7 +261,6 @@ public class WheelSystem implements RobotSystem, Runnable {
 	public void gearsOff() {
 		gear = 0;
 		gearbox.set(Relay.Value.kOff);
-                gearbox2.set(Relay.Value.kOff);
 	}
 
 	/**
@@ -272,7 +269,6 @@ public class WheelSystem implements RobotSystem, Runnable {
 	public void gearsReverse() {
 		gear = 1;
 		gearbox.set(Relay.Value.kReverse);
-		gearbox2.set(Relay.Value.kReverse);
 	}
 
 	/* (non-Javadoc)
@@ -280,7 +276,6 @@ public class WheelSystem implements RobotSystem, Runnable {
 	 */
 	public void destroy() {
 		gearbox.free();
-		gearbox2.free();
 		wheels.free();
 	}
 	

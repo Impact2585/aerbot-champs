@@ -1,11 +1,11 @@
 package org._2585robophiles.aerbot.systems;
 
 import org._2585robophiles.aerbot.Environment;
-import org._2585robophiles.aerbot.custom.DoubleSolenoid;
 import org._2585robophiles.aerbot.custom.MultiMotor;
 import org._2585robophiles.aerbot.input.InputMethod;
 
 import edu.wpi.first.wpilibj.SensorBase;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Victor;
 
@@ -13,7 +13,7 @@ public class ShooterSystem implements RobotSystem, Runnable{
 
     private InputMethod inputMethod;
     private SpeedController shooter;
-    private DoubleSolenoid doubleSolenoid;
+    private Solenoid solenoid;
     private boolean shooting = false;
     private long shootStart = 0, lastPress = 0, current;
     private boolean shotPress;
@@ -27,25 +27,21 @@ public class ShooterSystem implements RobotSystem, Runnable{
     	
     	shooter = new MultiMotor(new SpeedController[]{new Victor(4),new Victor(5)});
         shooter.set(0);
-        doubleSolenoid = new DoubleSolenoid(8,7);
+        solenoid = new Solenoid(8);
     }
     
     /**
      * Shooter down
      */
     public void open() {
-        if(doubleSolenoid.isDefaultState()){
-        	doubleSolenoid.toggle();
-        }
+        solenoid.set(true);
     }
     
     /**
      * Shooter up at default position
      */
     public void close() {
-    	 if(!(doubleSolenoid.isDefaultState())){
-         	doubleSolenoid.toggle();
-         }
+    	solenoid.set(false);
     }
     
     /**
@@ -64,7 +60,7 @@ public class ShooterSystem implements RobotSystem, Runnable{
         	SensorBase motor = (SensorBase) shooter;
         	motor.free();
         }
-        doubleSolenoid.free();
+        solenoid.free();
     }
     
     /* (non-Javadoc)
