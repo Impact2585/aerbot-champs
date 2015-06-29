@@ -61,7 +61,7 @@ public class PartnerXboxInput implements InputMethod {
      * @see org._2585robophiles.aerbot.input.InputMethod#shift()
      */
     public boolean shift() {
-        return driver.getRawButton(XboxInput.B_BUTTON) || driver.getRawButton(XboxInput.RIGHT_BUMPER);
+        return driver.getRawButton(XboxInput.B_BUTTON);
     }
     
     /* (non-Javadoc)
@@ -96,7 +96,7 @@ public class PartnerXboxInput implements InputMethod {
      * @see org._2585robophiles.aerbot.input.InputMethod#directionToggle()
      */
     public boolean directionToggle() {
-        return driver.getRawButton(XboxInput.Y_BUTTON) || driver.getRawButton(XboxInput.RIGHT_BUMPER);
+        return driver.getRawButton(XboxInput.Y_BUTTON);
     }
     
     /* (non-Javadoc)
