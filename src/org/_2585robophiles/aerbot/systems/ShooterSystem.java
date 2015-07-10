@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.Victor;
 public class ShooterSystem implements RobotSystem, Runnable{
 
     private InputMethod inputMethod;
-    private SpeedController shooter;
+    private SpeedController speedController;
     private Solenoid solenoid;
     private boolean shooting = false;
     private long shootStart = 0, lastPress = 0, current;
@@ -25,8 +25,8 @@ public class ShooterSystem implements RobotSystem, Runnable{
     public void init(Environment env) {
     	inputMethod = env.getInput();
     	
-    	shooter = new MultiMotor(new SpeedController[]{new Victor(4),new Victor(5)});
-        shooter.set(0);
+    	speedController = new MultiMotor(new SpeedController[]{new Victor(4),new Victor(5)});
+        speedController.set(0);
         solenoid = new Solenoid(8);
     }
     
@@ -45,19 +45,19 @@ public class ShooterSystem implements RobotSystem, Runnable{
     }
     
     /**
-     * sets speed of shooter motor
+     * sets speed of speedController motor
      * @param speed value should be from -1 to 1
      */
     public void setMotor(double speed){
-    	shooter.set(speed);
+    	speedController.set(speed);
     }
     
     /* (non-Javadoc)
      * @see org._2585robophiles.aerbot.systems.RobotSystem#destroy()
      */
     public void destroy() {
-        if(shooter instanceof SensorBase){
-        	SensorBase motor = (SensorBase) shooter;
+        if(speedController instanceof SensorBase){
+        	SensorBase motor = (SensorBase) speedController;
         	motor.free();
         }
         solenoid.free();
@@ -71,7 +71,7 @@ public class ShooterSystem implements RobotSystem, Runnable{
     }
     
     /**
-     * controls shooter with given input
+     * controls speedController with given input
      * @param input input from driver
      */
     public void shoot(InputMethod input) {
@@ -166,14 +166,14 @@ public class ShooterSystem implements RobotSystem, Runnable{
 	 * @return the motor
 	 */
 	protected SpeedController getSpeedController() {
-		return shooter;
+		return speedController;
 	}
 
 	/**
-	 * @param shooter the motor to set
+	 * @param speedController the motor to set
 	 */
 	protected void setSpeedController(SpeedController shooter) {
-		this.shooter = shooter;
+		this.speedController = shooter;
 	}
 
 }
