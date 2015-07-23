@@ -74,7 +74,7 @@ public class RobotDrive3 extends RobotDrive {
         rotateValue *= rotateValue * rotateValue;//cubed rotation
         rotateValue -= ROTATION_CORRECTION * moveValue;// ghetto straight driving
         if(Math.abs(rotateValue) > 1)
-        	rotateValue = Math.signum(rotateValue);
+        	rotateValue = rotateValue < 1 ? -1 : 1;// make sure it stays in range of -1 to 1
         
     	super.arcadeDrive(moveValue, rotateValue, false);
     }
