@@ -1,6 +1,6 @@
-package org._2585robophiles.aerbot.systems;
+package org.impact2585.aerbot.systems;
 
-import org._2585robophiles.aerbot.Initializable;
+import org.impact2585.aerbot.Initializable;
 
 public interface RobotSystem extends Initializable{
     

@@ -1,6 +1,6 @@
-package org._2585robophiles.aerbot.systems;
+package org.impact2585.aerbot.systems;
 
-import org._2585robophiles.aerbot.Environment;
+import org.impact2585.aerbot.Environment;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,7 +19,7 @@ public class RoboRealmSystem implements RobotSystem, ITableListener {
     }
 
     /* (non-Javadoc)
-     * @see org._2585robophiles.aerbot.systems.RobotSystem#init(org._2585robophiles.aerbot.Environment)
+     * @see org.impact2585.aerbot.systems.RobotSystem#init(org.impact2585.aerbot.Environment)
      */
     public void init(Environment environment) {
         nt = NetworkTable.getTable("VisionTable");
@@ -27,7 +27,7 @@ public class RoboRealmSystem implements RobotSystem, ITableListener {
     }
 
     /* (non-Javadoc)
-     * @see org._2585robophiles.aerbot.systems.RobotSystem#destroy()
+     * @see org.impact2585.aerbot.systems.RobotSystem#destroy()
      */
     public void destroy() {
         

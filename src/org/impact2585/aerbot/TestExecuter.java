@@ -1,7 +1,7 @@
-package org._2585robophiles.aerbot;
+package org.impact2585.aerbot;
 
-import org._2585robophiles.aerbot.input.InputMethod;
-import org._2585robophiles.aerbot.input.XboxInput;
+import org.impact2585.aerbot.input.InputMethod;
+import org.impact2585.aerbot.input.XboxInput;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -29,7 +29,7 @@ public class TestExecuter implements Executer {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org._2585robophiles.aerbot.Initializable#init(org._2585robophiles.aerbot.Environment)
+	 * @see org.impact2585.aerbot.Initializable#init(org.impact2585.aerbot.Environment)
 	 */
 	public void init(Environment environment) {
 		env = environment;
@@ -37,7 +37,7 @@ public class TestExecuter implements Executer {
 	}
 
 	/* (non-Javadoc)
-	 * @see org._2585robophiles.aerbot.Executer#execute()
+	 * @see org.impact2585.aerbot.Executer#execute()
 	 */
 	public void execute() {
 		env.getIntakeSystem().setMotor(1);

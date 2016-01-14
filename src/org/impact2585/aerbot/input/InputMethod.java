@@ -1,4 +1,4 @@
-package org._2585robophiles.aerbot.input;
+package org.impact2585.aerbot.input;
 
 import edu.wpi.first.wpilibj.Joystick;
 

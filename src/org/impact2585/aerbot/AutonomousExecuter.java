@@ -1,4 +1,4 @@
-package org._2585robophiles.aerbot;
+package org.impact2585.aerbot;
 
 public class AutonomousExecuter implements Executer {
 
@@ -24,7 +24,7 @@ public class AutonomousExecuter implements Executer {
 	}
 
 	/* (non-Javadoc)
-	 * @see org._2585robophiles.aerbot.Initializable#init(org._2585robophiles.aerbot.Environment)
+	 * @see org.impact2585.aerbot.Initializable#init(org.impact2585.aerbot.Environment)
 	 */
 	public void init(Environment env) {
 		this.env = env;
@@ -32,7 +32,7 @@ public class AutonomousExecuter implements Executer {
 	}
 
 	/* (non-Javadoc)
-	 * @see org._2585robophiles.aerbot.Executer#execute()
+	 * @see org.impact2585.aerbot.Executer#execute()
 	 */
 	public void execute() {
 		long now = System.currentTimeMillis();

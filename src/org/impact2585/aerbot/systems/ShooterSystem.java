@@ -1,8 +1,8 @@
-package org._2585robophiles.aerbot.systems;
+package org.impact2585.aerbot.systems;
 
-import org._2585robophiles.aerbot.Environment;
-import org._2585robophiles.aerbot.custom.MultiMotor;
-import org._2585robophiles.aerbot.input.InputMethod;
+import org.impact2585.aerbot.Environment;
+import org.impact2585.aerbot.custom.MultiMotor;
+import org.impact2585.aerbot.input.InputMethod;
 
 import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -20,7 +20,7 @@ public class ShooterSystem implements RobotSystem, Runnable{
     private boolean manualShooting;
     
     /* (non-Javadoc)
-     * @see org._2585robophiles.aerbot.systems.RobotSystem#init(org._2585robophiles.aerbot.Environment)
+     * @see org.impact2585.aerbot.systems.RobotSystem#init(org.impact2585.aerbot.Environment)
      */
     public void init(Environment env) {
     	inputMethod = env.getInput();
@@ -53,7 +53,7 @@ public class ShooterSystem implements RobotSystem, Runnable{
     }
     
     /* (non-Javadoc)
-     * @see org._2585robophiles.aerbot.systems.RobotSystem#destroy()
+     * @see org.impact2585.aerbot.systems.RobotSystem#destroy()
      */
     public void destroy() {
         if(speedController instanceof SensorBase){

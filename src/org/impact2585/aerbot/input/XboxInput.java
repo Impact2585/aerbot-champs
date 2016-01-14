@@ -1,4 +1,4 @@
-package org._2585robophiles.aerbot.input;
+package org.impact2585.aerbot.input;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -45,84 +45,84 @@ public class XboxInput implements InputMethod {
     }
     
     /* (non-Javadoc)
-     * @see org._2585robophiles.aerbot.input.InputMethod#intakeLift()
+     * @see org.impact2585.aerbot.input.InputMethod#intakeLift()
      */
     public boolean intakeLift() {
         return controller.getRawButton(BACK_BUTTON);
     }
     
     /* (non-Javadoc)
-     * @see org._2585robophiles.aerbot.input.InputMethod#getLeftX()
+     * @see org.impact2585.aerbot.input.InputMethod#getLeftX()
      */
     public double getLeftX() {
         return controller.getRawAxis(LEFT_X_AXIS);
     }
 
     /* (non-Javadoc)
-     * @see org._2585robophiles.aerbot.input.InputMethod#getRightX()
+     * @see org.impact2585.aerbot.input.InputMethod#getRightX()
      */
     public double getRightX() {
         return controller.getRawAxis(RIGHT_X_AXIS);
     }
     
     /* (non-Javadoc)
-     * @see org._2585robophiles.aerbot.input.InputMethod#getLeftY()
+     * @see org.impact2585.aerbot.input.InputMethod#getLeftY()
      */
     public double getLeftY() {
         return controller.getRawAxis(LEFT_Y_AXIS);
     }
 
     /* (non-Javadoc)
-     * @see org._2585robophiles.aerbot.input.InputMethod#getRightY()
+     * @see org.impact2585.aerbot.input.InputMethod#getRightY()
      */
     public double getRightY() {
         return controller.getRawAxis(RIGHT_Y_AXIS);
     }
     
     /* (non-Javadoc)
-     * @see org._2585robophiles.aerbot.input.InputMethod#shift()
+     * @see org.impact2585.aerbot.input.InputMethod#shift()
      */
     public boolean shift() {
         return controller.getRawButton(B_BUTTON);
     }
     
     /* (non-Javadoc)
-     * @see org._2585robophiles.aerbot.input.InputMethod#catchBall()
+     * @see org.impact2585.aerbot.input.InputMethod#catchBall()
      */
     public boolean catchBall() {
         return controller.getRawButton(Y_BUTTON);//catch ball is start button
     }
     
     /* (non-Javadoc)
-     * @see org._2585robophiles.aerbot.input.InputMethod#shoot()
+     * @see org.impact2585.aerbot.input.InputMethod#shoot()
      */
     public boolean shoot() {
         return controller.getRawButton(LEFT_BUMPER);
     }
     
     /* (non-Javadoc)
-     * @see org._2585robophiles.aerbot.input.InputMethod#shooterLift()
+     * @see org.impact2585.aerbot.input.InputMethod#shooterLift()
      */
     public boolean shooterLift() {
         return controller.getRawButton(LEFT_JOYSTICK_BUTTON);
     }
     
     /* (non-Javadoc)
-     * @see org._2585robophiles.aerbot.input.InputMethod#intakeToggle()
+     * @see org.impact2585.aerbot.input.InputMethod#intakeToggle()
      */
     public boolean intakeToggle() {
         return controller.getRawButton(RIGHT_BUMPER);
     }
     
     /* (non-Javadoc)
-     * @see org._2585robophiles.aerbot.input.InputMethod#directionToggle()
+     * @see org.impact2585.aerbot.input.InputMethod#directionToggle()
      */
     public boolean directionToggle() {
         return controller.getRawButton(BACK_BUTTON);
     }
     
     /* (non-Javadoc)
-     * @see org._2585robophiles.aerbot.input.InputMethod#intake()
+     * @see org.impact2585.aerbot.input.InputMethod#intake()
      */
     public int intake() {
         if(controller.getRawButton(A_BUTTON)) {
@@ -135,14 +135,14 @@ public class XboxInput implements InputMethod {
     }
 
 	/* (non-Javadoc)
-	 * @see org._2585robophiles.aerbot.input.InputMethod#straightDrive()
+	 * @see org.impact2585.aerbot.input.InputMethod#straightDrive()
 	 */
 	public boolean straightDrive() {
 		return controller.getRawButton(RIGHT_JOYSTICK_BUTTON);
 	}
 
 	/* (non-Javadoc)
-	 * @see org._2585robophiles.aerbot.input.InputMethod#joysticks()
+	 * @see org.impact2585.aerbot.input.InputMethod#joysticks()
 	 */
 	public Joystick[] joysticks() {
 		return new Joystick[]{controller};

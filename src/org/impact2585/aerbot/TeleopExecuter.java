@@ -1,4 +1,4 @@
-package org._2585robophiles.aerbot;
+package org.impact2585.aerbot;
 
 import java.util.Vector;
 
@@ -22,7 +22,7 @@ public class TeleopExecuter implements Executer {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org._2585robophiles.aerbot.Initializable#init(org._2585robophiles.aerbot.Environment)
+	 * @see org.impact2585.aerbot.Initializable#init(org.impact2585.aerbot.Environment)
 	 */
 	public void init(Environment environment) {
 		// add the runnable systems to runnables
@@ -32,7 +32,7 @@ public class TeleopExecuter implements Executer {
 	}
 
 	/* (non-Javadoc)
-	 * @see org._2585robophiles.aerbot.Executer#execute()
+	 * @see org.impact2585.aerbot.Executer#execute()
 	 */
 	public void execute() {
 		//run all the runnables
