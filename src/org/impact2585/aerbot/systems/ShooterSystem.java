@@ -7,7 +7,7 @@ import org.impact2585.aerbot.input.InputMethod;
 import edu.wpi.first.wpilibj.SensorBase;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.Jaguar;
 
 public class ShooterSystem implements RobotSystem, Runnable{
 
@@ -25,7 +25,7 @@ public class ShooterSystem implements RobotSystem, Runnable{
     public void init(Environment env) {
     	inputMethod = env.getInput();
     	
-    	speedController = new MultiMotor(new SpeedController[]{new Victor(4),new Victor(5)});
+    	speedController = new MultiMotor(new SpeedController[]{new Jaguar(4),new Jaguar(5)});
         speedController.set(0);
         solenoid = new Solenoid(8);
     }
