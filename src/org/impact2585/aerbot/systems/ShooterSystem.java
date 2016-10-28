@@ -1,6 +1,7 @@
 package org.impact2585.aerbot.systems;
 
 import org.impact2585.aerbot.Environment;
+import org.impact2585.aerbot.RobotMap;
 import org.impact2585.aerbot.custom.MultiMotor;
 import org.impact2585.aerbot.input.InputMethod;
 
@@ -25,9 +26,9 @@ public class ShooterSystem implements RobotSystem, Runnable{
     public void init(Environment env) {
     	inputMethod = env.getInput();
     	
-    	speedController = new MultiMotor(new SpeedController[]{new Jaguar(4),new Jaguar(5)});
+    	speedController = new MultiMotor(new SpeedController[]{new Jaguar(RobotMap.SHOOTER_MOTOR_1),new Jaguar(RobotMap.SHOOTER_MOTOR_2)});
         speedController.set(0);
-        solenoid = new Solenoid(8);
+        solenoid = new Solenoid(RobotMap.SHOOTER_SOLENOID);
     }
     
     /**
