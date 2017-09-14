@@ -1,6 +1,7 @@
 package org.impact2585.aerbot.systems;
 
 import org.impact2585.aerbot.Environment;
+import org.impact2585.aerbot.RobotMap;
 
 import edu.wpi.first.wpilibj.AnalogChannel;
 
@@ -13,7 +14,7 @@ public class SonarSystem implements RobotSystem {
      * @see org.impact2585.aerbot.systems.RobotSystem#init(org.impact2585.aerbot.Environment)
      */
     public void init(Environment environment) {
-       sonar = new AnalogChannel(1);
+       sonar = new AnalogChannel(RobotMap.SONAR_CHANNEL);
     }
 
     /* (non-Javadoc)

@@ -1,6 +1,7 @@
 package org.impact2585.aerbot.systems;
 
 import org.impact2585.aerbot.Environment;
+import org.impact2585.aerbot.RobotMap;
 import org.impact2585.aerbot.custom.RobotDrive3;
 import org.impact2585.aerbot.input.InputMethod;
 
@@ -55,13 +56,12 @@ public class WheelSystem implements RobotSystem, Runnable {
 	 * @see org.impact2585.aerbot.systems.RobotSystem#init(org.impact2585.aerbot.Environment)
 	 */
 	public void init(Environment environment) {
-		wheels = new RobotDrive3(1, 10);
+		wheels = new RobotDrive3(RobotMap.LEFT_DRIVETRAIN_MOTOR, RobotMap.RIGHT_DRIVETRAIN_MOTOR);
 
-		gearbox = new Relay(2);
+		gearbox = new Relay(RobotMap.GEARBOX);
 		this.gearsOff();
 
 		wheels.setSafetyEnabled(false);
-		// this.motion = e.getMotionTracker();
 
 		gyro = environment.getGyroSystem();
 		accelerometer = environment.getAccelerometerSystem();

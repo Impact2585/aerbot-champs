@@ -1,6 +1,7 @@
 package org.impact2585.aerbot.systems;
 
 import org.impact2585.aerbot.Environment;
+import org.impact2585.aerbot.RobotMap;
 import org.impact2585.aerbot.input.InputMethod;
 
 import edu.wpi.first.wpilibj.Jaguar;
@@ -24,12 +25,10 @@ public class IntakeSystem implements RobotSystem, Runnable {
      */
     public void init(Environment environment) {
         shooter = environment.getShooterSystem();
-        motorController = new Jaguar(2);
-        intakeLift = new Relay(5);
-        intakeLift2 = new Relay(6);
-        
+        motorController = new Jaguar(RobotMap.INTAKE_MOTOR_CONTROLLER);
+        intakeLift = new Relay(RobotMap.INTAKE_LIFT_1);
+        intakeLift2 = new Relay(RobotMap.INTAKE_LIFT_2);
         close();
-        
         inputMethod = environment.getInput();
     }
 

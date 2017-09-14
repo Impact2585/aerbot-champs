@@ -1,6 +1,7 @@
 package org.impact2585.aerbot.systems;
 
 import org.impact2585.aerbot.Environment;
+import org.impact2585.aerbot.RobotMap;
 
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.Timer;
@@ -16,7 +17,7 @@ public class GyroSystem implements RobotSystem {
    * @see org.impact2585.aerbot.systems.RobotSystem#init(org.impact2585.aerbot.Environment)
    */
   public void init(Environment e) {
-    gyro = new Gyro(2);
+    gyro = new Gyro(RobotMap.GYRO_PORT);
     timer = new Timer();
     timer.start();
   }

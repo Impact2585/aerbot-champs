@@ -1,6 +1,7 @@
 package org.impact2585.aerbot.systems;
 
 import org.impact2585.aerbot.Environment;
+import org.impact2585.aerbot.RobotMap;
 
 import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.DigitalModule;
@@ -15,13 +16,14 @@ public class AccelerometerSystem implements RobotSystem {
   private double speed;
   private I2C i2c;
   private Timer timer;
-
+  public static final int DEVICE_ADDRESS = 1;
+  
   /* (non-Javadoc)
    * @see org.impact2585.aerbot.systems.RobotSystem#init(org.impact2585.aerbot.Environment)
    */
   public void init(Environment environment) {
-    accel = new ADXL345_I2C(1, ADXL345_I2C.DataFormat_Range.k4G);
-    i2c = new I2C(DigitalModule.getInstance(1), 1);
+    accel = new ADXL345_I2C(RobotMap.ACCELEROMETER_PORT, ADXL345_I2C.DataFormat_Range.k4G);
+    i2c = new I2C(DigitalModule.getInstance(1), DEVICE_ADDRESS);
     i2c.setCompatabilityMode(true);
     timer = new Timer();
     timer.start();
